@@ -1,172 +1,192 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { ediscoveryTechnologies, ediscoveryPipeline } from '../data/technology';
-import { Database, Cpu, FileCheck, Share2, ArrowRight, Layers, Binary, ShieldAlert } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Layers, Database, Shield, FileText, Cpu, Search, CheckCircle2, Lock } from 'lucide-react';
 
-const iconMap = {
-  Database: Database,
-  Cpu: Cpu,
-  FileCheck: FileCheck,
-  Share2: Share2
-};
+const workflowNodes = [
+  { id: 'matters', label: 'MATTERS', category: 'Workflow', x: 20, y: 22, desc: 'Litigation portfolios, regulatory inquiries, and internal investigations.' },
+  { id: 'custodians', label: 'CUSTODIANS', category: 'Workflow', x: 80, y: 22, desc: 'Targeted data sources, personnel repositories, and communication channels.' },
+  { id: 'documents', label: 'DOCUMENTS', category: 'Data Unit', x: 14, y: 52, desc: 'Structured & unstructured electronic files, email archives, and messaging threads.' },
+  { id: 'evidence', label: 'EVIDENCE', category: 'Forensics', x: 86, y: 52, desc: 'Forensically preserved artifacts with validated cryptographic hash chains.' },
+  { id: 'privilege', label: 'PRIVILEGE', category: 'Compliance', x: 22, y: 80, desc: 'Attorney-client work product defense, redaction protocols, and privilege logs.' },
+  { id: 'review', label: 'REVIEW', category: 'Analysis', x: 78, y: 80, desc: 'Supervised multi-tier classification, continuous active learning, and QA validation.' },
+  { id: 'data', label: 'DATA', category: 'Payload', x: 50, y: 15, desc: 'Ingestion normalization, high-throughput parsing, and defensible pruning.' },
+];
+
+const platformNodes = [
+  { id: 'relativity', label: 'RELATIVITY', role: 'Analytics & Review Engine', desc: 'Integrated for high-throughput processing, CAL machine learning, and secure review.', x: 30, y: 92 },
+  { id: '4ig', label: '4iG', role: 'Forensic Processing Engine', desc: 'Applied for rapid metadata extraction, hash deduplication, and forensic normalization.', x: 50, y: 92 },
+  { id: 'canopy', label: 'CANOPY', role: 'PII & Privacy Mining', desc: 'Utilized for automated PII/PHI extraction and consolidated entity assessment.', x: 70, y: 92 }
+];
 
 export default function Technology() {
-  const [activePipelineStep, setActivePipelineStep] = useState(0);
+  const [selectedNode, setSelectedNode] = useState(workflowNodes[0]);
 
   return (
-    <section id="technology" className="relative py-28 bg-[#081018] border-t border-white/[0.06] overflow-hidden">
-      {/* Background Subtle Ambience */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] bg-[#0D7892]/10 rounded-full blur-[140px] pointer-events-none" />
-      <div className="absolute inset-0 bg-tech-grid opacity-25 pointer-events-none" />
+    <section id="technology" className="relative py-32 bg-[#081018] border-t border-white/[0.08] overflow-hidden text-[#F4F7FA]">
+      {/* Subtle Atmospheric Depth */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] bg-[#00BFEF]/5 rounded-full blur-[160px] pointer-events-none" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
-        <div className="max-w-3xl mb-16">
-          <div className="mb-4">
-            <span className="tech-label">03 // EDISCOVERY TECHNOLOGY</span>
+        <div className="max-w-3xl mb-16 sm:mb-20">
+          <div className="mb-3">
+            <span className="font-mono text-xs uppercase tracking-[0.25em] text-[#00BFEF]">
+              03 // eDISCOVERY ARCHITECTURE
+            </span>
           </div>
-          <h2 className="font-display font-bold text-3xl sm:text-4xl md:text-5xl text-[#F4F7FA] tracking-tight leading-tight">
-            Technology-enabled workflows for complex discovery and litigation support.
+          <h2 className="font-display font-semibold text-3xl sm:text-4xl md:text-5xl text-[#F4F7FA] tracking-tight leading-[1.12]">
+            Data relationship & technology topology.
           </h2>
-          <p className="text-sm sm:text-base text-[#91A0AE] mt-4 leading-relaxed">
-            Platforms and technologies integrated into the eDiscovery capability to support processing, review, and production workflows.
+          <p className="text-base text-[#91A0AE] mt-4 leading-relaxed max-w-2xl font-normal">
+            A visual representation of how core matter entities, evidentiary units, and operational technologies interconnect within Aegis eDiscovery workflows.
           </p>
         </div>
 
-        {/* Visual Pipeline: Collection -> Processing -> Review -> Production */}
-        <div className="mb-20">
-          <div className="flex items-center justify-between mb-8">
-            <div className="flex items-center gap-2">
-              <span className="text-xs font-mono uppercase tracking-widest text-[#20D4FF]">
-                PIPELINE ARCHITECTURE
-              </span>
-              <span className="text-xs text-[#5E7182]">| Cryptographic Chain of Custody</span>
+        {/* DATA VISUALIZATION GRAPH CANVAS */}
+        <div className="relative border border-white/[0.08] bg-[#0A121A]/80 p-6 sm:p-12 min-h-[580px] flex flex-col justify-between overflow-hidden">
+          
+          {/* Top Bar Status */}
+          <div className="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-white/[0.06] text-xs font-mono">
+            <div className="flex items-center gap-3">
+              <span className="inline-block w-2 h-2 rounded-full bg-[#00BFEF] animate-pulse" />
+              <span className="text-[#C5D2DC] tracking-wider uppercase">RELATIONSHIP NETWORK // ACTIVE TOPOLOGY</span>
             </div>
-            <div className="hidden sm:flex items-center gap-4 text-xs font-mono text-[#91A0AE]">
-              <span className="flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-[#20D4FF]" />
-                Live Node
-              </span>
-              <span className="flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-[#0D7892]" />
-                Data Ingestion
-              </span>
+            <div className="flex items-center gap-6 text-[#728495]">
+              <span>NODES: 10</span>
+              <span className="hidden sm:inline">COORDINATE MAPPING: VECTOR-BASED</span>
+              <span>CLICK NODE TO INSPECT</span>
             </div>
           </div>
 
-          {/* Desktop / Tablet Horizontal Pipeline Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 relative">
-            {ediscoveryPipeline.map((step, idx) => {
-              const IconComponent = iconMap[step.icon] || Layers;
-              const isSelected = activePipelineStep === idx;
+          {/* Interactive SVG Network Area (Desktop/Tablet) */}
+          <div className="relative my-8 sm:my-12 h-[340px] sm:h-[400px] w-full">
+            
+            {/* SVG Vector Connection Lines */}
+            <svg className="absolute inset-0 w-full h-full pointer-events-none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="cyanLine" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#00BFEF" stopOpacity="0.6" />
+                  <stop offset="100%" stopColor="#00BFEF" stopOpacity="0.1" />
+                </linearGradient>
+                <linearGradient id="techLine" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stopColor="#00BFEF" stopOpacity="0.4" />
+                  <stop offset="100%" stopColor="#536575" stopOpacity="0.2" />
+                </linearGradient>
+              </defs>
 
-              return (
-                <div
-                  key={step.step}
-                  onClick={() => setActivePipelineStep(idx)}
-                  className={`cursor-pointer rounded-xl p-6 border transition-all duration-300 relative group overflow-hidden ${
-                    isSelected
-                      ? 'bg-[#0D1720] border-[#20D4FF]/50 shadow-lg shadow-[#20D4FF]/10'
-                      : 'bg-[#081018]/80 border-white/[0.08] hover:bg-[#0D1720]/50 hover:border-white/[0.15]'
-                  }`}
-                >
-                  {/* Subtle top indicator */}
-                  <div
-                    className={`h-1 w-full absolute top-0 left-0 transition-colors ${
-                      isSelected ? 'bg-[#20D4FF]' : 'bg-transparent group-hover:bg-[#0D7892]'
-                    }`}
+              {/* Central to Workflow Node Vectors */}
+              {workflowNodes.map((node) => (
+                <g key={`line-${node.id}`}>
+                  <line
+                    x1="50%"
+                    y1="50%"
+                    x2={`${node.x}%`}
+                    y2={`${node.y}%`}
+                    stroke={selectedNode?.id === node.id ? "#00BFEF" : "rgba(255, 255, 255, 0.12)"}
+                    strokeWidth={selectedNode?.id === node.id ? "1.5" : "1"}
+                    strokeDasharray={selectedNode?.id === node.id ? "none" : "3,3"}
+                    className="transition-all duration-300"
                   />
+                </g>
+              ))}
 
-                  {/* Header */}
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="p-2.5 rounded-lg bg-[#111D27] border border-white/[0.06] text-[#20D4FF] group-hover:border-[#20D4FF]/40 transition-colors">
-                      <IconComponent className="w-5 h-5" />
-                    </div>
-                    <span className="font-mono text-xs font-bold text-[#5E7182] group-hover:text-[#20D4FF]">
-                      PHASE {step.step}
-                    </span>
-                  </div>
+              {/* Center to Technology Nodes */}
+              {platformNodes.map((tech) => (
+                <g key={`techline-${tech.id}`}>
+                  <line
+                    x1="50%"
+                    y1="50%"
+                    x2={`${tech.x}%`}
+                    y2={`${tech.y}%`}
+                    stroke={selectedNode?.id === tech.id ? "#00BFEF" : "rgba(0, 191, 239, 0.25)"}
+                    strokeWidth="1"
+                    strokeDasharray="4,4"
+                    className="transition-all duration-300"
+                  />
+                </g>
+              ))}
 
-                  <div className="text-[11px] font-mono uppercase tracking-widest text-[#20D4FF] mb-1 font-semibold">
-                    {step.phase}
-                  </div>
-                  <h3 className="font-display font-semibold text-lg text-[#F4F7FA] mb-3">
-                    {step.title}
-                  </h3>
-                  <p className="text-xs text-[#91A0AE] leading-relaxed mb-4">
-                    {step.description}
-                  </p>
+              {/* Cross-entity connections */}
+              <line x1="20%" y1="22%" x2="14%" y2="52%" stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
+              <line x1="80%" y1="22%" x2="86%" y2="52%" stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
+              <line x1="14%" y1="52%" x2="22%" y2="80%" stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
+              <line x1="86%" y1="52%" x2="78%" y2="80%" stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
+            </svg>
 
-                  <div className="pt-3 border-t border-white/[0.06] flex items-center justify-between text-[11px] font-mono text-[#5E7182]">
-                    <span>{step.metrics}</span>
-                    {idx < ediscoveryPipeline.length - 1 && (
-                      <ArrowRight className="w-3.5 h-3.5 text-[#0D7892] hidden md:block group-hover:translate-x-1 transition-transform" />
-                    )}
-                  </div>
+            {/* Central Concept Node: eDISCOVERY */}
+            <div 
+              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20"
+            >
+              <div className="px-5 py-2.5 sm:px-7 sm:py-3.5 bg-[#081018] border-2 border-[#00BFEF] text-[#F4F7FA] font-display font-bold text-sm sm:text-base tracking-[0.2em] uppercase text-center shadow-lg shadow-[#00BFEF]/10">
+                <div className="flex items-center gap-2 justify-center">
+                  <span className="w-2 h-2 rounded-full bg-[#00BFEF]" />
+                  <span>eDISCOVERY</span>
                 </div>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Confirmed Technologies / Platforms Cards */}
-        <div>
-          <div className="mb-6">
-            <h3 className="font-display font-semibold text-xl text-[#F4F7FA] flex items-center gap-2.5">
-              <Binary className="w-5 h-5 text-[#20D4FF]" />
-              Integrated eDiscovery Technologies & Platforms
-            </h3>
-            <p className="text-xs text-[#91A0AE] mt-1">
-              Platforms deployed across processing, analytic segmentation, and PII exposure workflows.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {ediscoveryTechnologies.map((tech, idx) => (
-              <div
-                key={tech.id}
-                className="p-7 rounded-2xl bg-[#0D1720] border border-white/[0.08] hover:border-[#20D4FF]/30 transition-all duration-300 flex flex-col justify-between relative group"
-              >
-                {/* Tech Wordmark Header */}
-                <div>
-                  <div className="flex items-center justify-between mb-4">
-                    <span className="font-mono text-xs text-[#5E7182]">
-                      PLATFORM 0{idx + 1}
-                    </span>
-                    <span className="text-[11px] font-mono uppercase px-2.5 py-0.5 rounded bg-[#111D27] border border-white/[0.06] text-[#20D4FF]">
-                      {tech.type}
-                    </span>
-                  </div>
-
-                  {/* Clean text-based wordmark */}
-                  <div className="font-display font-bold text-2xl tracking-wider text-[#F4F7FA] group-hover:text-[#20D4FF] transition-colors mb-2">
-                    {tech.name}
-                  </div>
-                  <div className="text-xs font-mono text-[#20D4FF]/90 mb-4">
-                    {tech.tagline}
-                  </div>
-
-                  <p className="text-xs text-[#91A0AE] leading-relaxed mb-6">
-                    {tech.description}
-                  </p>
-                </div>
-
-                {/* Features List */}
-                <div className="pt-5 border-t border-white/[0.06] space-y-2">
-                  <div className="text-[11px] font-display uppercase tracking-wider text-[#F4F7FA] font-bold mb-2">
-                    Capability Integration:
-                  </div>
-                  {tech.features.map((feat, fIdx) => (
-                    <div key={fIdx} className="flex items-center gap-2 text-xs text-[#91A0AE]">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#20D4FF]" />
-                      <span>{feat}</span>
-                    </div>
-                  ))}
+                <div className="text-[9px] font-mono tracking-widest text-[#00BFEF] font-normal mt-0.5">
+                  CORE HUB
                 </div>
               </div>
-            ))}
+            </div>
+
+            {/* Workflow Entities */}
+            {workflowNodes.map((node) => {
+              const isSelected = selectedNode?.id === node.id;
+              return (
+                <button
+                  key={node.id}
+                  onClick={() => setSelectedNode(node)}
+                  style={{ left: `${node.x}%`, top: `${node.y}%` }}
+                  className={`absolute -translate-x-1/2 -translate-y-1/2 z-10 px-3 py-1.5 sm:px-4 sm:py-2 text-xs font-mono font-medium tracking-wider uppercase transition-all duration-200 cursor-pointer ${
+                    isSelected
+                      ? 'bg-[#00BFEF] text-[#081018] font-bold shadow-md shadow-[#00BFEF]/20 scale-105'
+                      : 'bg-[#0D1720] border border-white/[0.15] text-[#91A0AE] hover:text-[#F4F7FA] hover:border-[#00BFEF]/60'
+                  }`}
+                >
+                  {node.label}
+                </button>
+              );
+            })}
+
+            {/* Platform / Technology Nodes */}
+            {platformNodes.map((tech) => {
+              const isSelected = selectedNode?.id === tech.id;
+              return (
+                <button
+                  key={tech.id}
+                  onClick={() => setSelectedNode(tech)}
+                  style={{ left: `${tech.x}%`, top: `${tech.y}%` }}
+                  className={`absolute -translate-x-1/2 -translate-y-1/2 z-10 px-3.5 py-1.5 sm:px-5 sm:py-2 text-[11px] sm:text-xs font-mono uppercase tracking-widest transition-all duration-200 cursor-pointer ${
+                    isSelected
+                      ? 'bg-[#00BFEF] text-[#081018] font-bold shadow-md shadow-[#00BFEF]/20'
+                      : 'bg-[#081018] border border-[#00BFEF]/40 text-[#00BFEF] hover:bg-[#00BFEF]/10'
+                  }`}
+                >
+                  <span className="flex items-center gap-1.5">
+                    <span className="w-1 h-1 rounded-full bg-[#00BFEF]" />
+                    {tech.label}
+                  </span>
+                </button>
+              );
+            })}
+
           </div>
+
+          {/* Bottom Active Node Inspector Bar */}
+          <div className="pt-6 border-t border-white/[0.08] flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div>
+              <div className="font-mono text-xs text-[#00BFEF] uppercase tracking-[0.2em] mb-1">
+                NODE DETAIL // {selectedNode?.label} {selectedNode?.category ? `(${selectedNode.category})` : selectedNode?.role ? `(${selectedNode.role})` : ''}
+              </div>
+              <p className="text-sm text-[#C5D2DC] max-w-3xl font-normal leading-relaxed">
+                {selectedNode?.desc}
+              </p>
+            </div>
+            <div className="shrink-0 text-xs font-mono text-[#536575]">
+              PLATFORM WORKFLOW INTEGRATION
+            </div>
+          </div>
+
         </div>
 
       </div>

@@ -1,14 +1,13 @@
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { servicesData } from '../data/services';
-import { ArrowUpRight, CheckCircle2, Layers, Cpu, ChevronDown, Sparkles } from 'lucide-react';
+import { ArrowUpRight, Check, ChevronRight } from 'lucide-react';
 
 export default function Services({ onOpenContact }) {
   const [activeIdx, setActiveIdx] = useState(0);
   const activeService = servicesData[activeIdx];
   const listRef = useRef(null);
 
-  // Keyboard navigation support for accessibility
   const handleKeyDown = (e, index) => {
     if (e.key === 'ArrowDown') {
       e.preventDefault();
@@ -26,31 +25,37 @@ export default function Services({ onOpenContact }) {
   };
 
   return (
-    <section id="services" className="relative py-28 bg-[#081018] border-t border-white/[0.06] overflow-hidden">
-      {/* Background Ambience */}
-      <div className="absolute top-1/3 right-0 w-[500px] h-[500px] bg-[#0D7892]/10 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute inset-0 bg-tech-grid-dense opacity-20 pointer-events-none" />
-
+    <section id="services" className="relative py-32 bg-[#081018] border-t border-white/[0.08] overflow-hidden text-[#F4F7FA]">
+      {/* Ambient Depth */}
+      <div className="absolute top-1/4 right-0 w-[500px] h-[500px] bg-[#00BFEF]/5 rounded-full blur-[140px] pointer-events-none" />
+      
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
-        <div className="max-w-3xl mb-16">
-          <div className="mb-4">
-            <span className="tech-label">02 // SERVICES</span>
+        <div className="max-w-3xl mb-16 sm:mb-20">
+          <div className="mb-3">
+            <span className="font-mono text-xs uppercase tracking-[0.25em] text-[#00BFEF]">
+              02 // OPERATIONAL SERVICES
+            </span>
           </div>
-          <h2 className="font-display font-bold text-3xl sm:text-4xl md:text-5xl text-[#F4F7FA] tracking-tight leading-tight">
-            Capabilities built around complex work.
+          <h2 className="font-display font-semibold text-3xl sm:text-4xl md:text-5xl text-[#F4F7FA] tracking-tight leading-[1.12]">
+            Disciplined capabilities built for complex demands.
           </h2>
-          <p className="text-sm sm:text-base text-[#91A0AE] mt-4 leading-relaxed">
+          <p className="text-base text-[#91A0AE] mt-4 leading-relaxed max-w-2xl font-normal">
             Select an operational practice area to inspect technical deliverables, methodologies, and deployment scope.
           </p>
         </div>
 
-        {/* Desktop & Tablet Interactive Explorer */}
-        <div className="hidden lg:grid lg:grid-cols-12 gap-8 items-stretch">
+        {/* Master-Detail Operations Interface */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start border-t border-b border-white/[0.08] py-10">
           
-          {/* Left Navigation Column */}
-          <div ref={listRef} className="lg:col-span-5 flex flex-col space-y-2.5" role="tablist" aria-label="Aegis Services Explorer">
+          {/* LEFT: Numbered Vertical Service Index */}
+          <div 
+            ref={listRef} 
+            className="lg:col-span-5 flex flex-col divide-y divide-white/[0.06]" 
+            role="tablist" 
+            aria-label="Aegis Services Directory"
+          >
             {servicesData.map((svc, idx) => {
               const isActive = activeIdx === idx;
               return (
@@ -63,249 +68,129 @@ export default function Services({ onOpenContact }) {
                   tabIndex={isActive ? 0 : -1}
                   onClick={() => setActiveIdx(idx)}
                   onKeyDown={(e) => handleKeyDown(e, idx)}
-                  className={`group relative text-left p-4 rounded-xl border transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#20D4FF] flex items-center justify-between ${
-                    isActive
-                      ? 'bg-[#0D1720] border-[#20D4FF]/40 shadow-lg shadow-black/40'
-                      : 'bg-[#081018]/60 border-white/[0.06] hover:bg-[#0D1720]/70 hover:border-white/[0.12]'
+                  className={`group w-full py-5 text-left transition-all duration-200 flex items-center justify-between outline-none relative ${
+                    isActive ? 'text-[#F4F7FA]' : 'text-[#728495] hover:text-[#C5D2DC]'
                   }`}
                 >
-                  {/* Left Cyan Indicator Bar */}
+                  {/* Active Left Indicator Bar */}
                   {isActive && (
                     <motion.div
-                      layoutId="serviceActiveIndicator"
-                      className="absolute left-0 top-3 bottom-3 w-1 bg-[#20D4FF] rounded-r-full shadow-[0_0_12px_#20D4FF]"
-                      transition={{ type: 'spring', stiffness: 350, damping: 30 }}
+                      layoutId="activeServiceBar"
+                      className="absolute -left-4 sm:-left-6 top-0 bottom-0 w-1 bg-[#00BFEF]"
+                      transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
                     />
                   )}
 
-                  <div className="flex items-center gap-4 pl-2">
-                    <span
-                      className={`font-display text-xs font-mono font-bold tracking-wider transition-colors ${
-                        isActive ? 'text-[#20D4FF]' : 'text-[#5E7182] group-hover:text-[#91A0AE]'
-                      }`}
-                    >
+                  <div className="flex items-baseline gap-4 sm:gap-6">
+                    <span className={`font-mono text-xs sm:text-sm font-medium transition-colors ${
+                      isActive ? 'text-[#00BFEF]' : 'text-[#4A5D6E] group-hover:text-[#91A0AE]'
+                    }`}>
                       {svc.id}
                     </span>
-                    <div>
-                      <div
-                        className={`font-display font-medium text-base transition-colors ${
-                          isActive ? 'text-[#F4F7FA] font-semibold' : 'text-[#91A0AE] group-hover:text-[#F4F7FA]'
-                        }`}
-                      >
-                        {svc.title}
-                      </div>
-                      <div className="text-[11px] text-[#5E7182] tracking-wider uppercase mt-0.5">
-                        {svc.category}
-                      </div>
-                    </div>
+                    <span className={`font-display text-lg sm:text-xl font-medium tracking-tight transition-colors ${
+                      isActive ? 'text-[#F4F7FA] font-semibold' : 'text-[#728495] group-hover:text-[#F4F7FA]'
+                    }`}>
+                      {svc.title}
+                    </span>
                   </div>
 
-                  <div className="flex items-center">
-                    <span
-                      className={`text-xs px-2 py-0.5 rounded font-mono transition-all ${
-                        isActive
-                          ? 'bg-[#20D4FF]/10 text-[#20D4FF] border border-[#20D4FF]/30'
-                          : 'bg-white/[0.02] text-[#5E7182] border border-transparent'
-                      }`}
-                    >
-                      {svc.code}
-                    </span>
+                  <div className="flex items-center pl-2">
+                    <ChevronRight className={`w-4 h-4 transition-all duration-200 ${
+                      isActive ? 'text-[#00BFEF] translate-x-1' : 'text-transparent group-hover:text-[#4A5D6E]'
+                    }`} />
                   </div>
                 </button>
               );
             })}
           </div>
 
-          {/* Right Dynamic Detail Panel */}
-          <div className="lg:col-span-7">
-            <div className="h-full rounded-2xl bg-[#0D1720] border border-white/[0.08] p-8 relative overflow-hidden flex flex-col justify-between shadow-2xl">
-              
-              {/* Subtle dynamic background glow */}
-              <div className="absolute top-0 right-0 w-80 h-80 bg-gradient-to-bl from-[#20D4FF]/10 via-[#0D7892]/5 to-transparent pointer-events-none" />
-              
-              {/* Giant background watermark index */}
-              <div className="absolute -bottom-8 -right-4 font-display font-black text-9xl text-white/[0.02] select-none pointer-events-none">
-                {activeService.id}
-              </div>
-
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={activeService.id}
-                  id={`service-panel-${activeService.id}`}
-                  role="tabpanel"
-                  aria-labelledby={`service-tab-${activeService.id}`}
-                  initial={{ opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -12 }}
-                  transition={{ duration: 0.35, ease: 'easeOut' }}
-                  className="relative z-10 flex-1 flex flex-col justify-between"
-                >
-                  <div>
-                    {/* Header meta */}
-                    <div className="flex items-center justify-between pb-5 border-b border-white/[0.08] mb-6">
-                      <div className="flex items-center gap-2.5">
-                        <span className="px-2.5 py-1 rounded bg-[#111D27] border border-[#20D4FF]/30 text-[#20D4FF] text-xs font-mono font-semibold">
-                          PRACTICE {activeService.id}
-                        </span>
-                        <span className="text-xs uppercase tracking-widest text-[#91A0AE] font-display">
-                          {activeService.category}
-                        </span>
-                      </div>
-                      <span className="text-xs font-mono text-[#5E7182]">
-                        SEC-LEVEL: OPERATIONAL
-                      </span>
-                    </div>
-
-                    {/* Title & Overview */}
-                    <h3 className="font-display font-bold text-2xl sm:text-3xl text-[#F4F7FA] tracking-tight mb-4">
-                      {activeService.title}
-                    </h3>
-                    
-                    <p className="text-base text-[#20D4FF] font-medium leading-relaxed mb-6">
-                      {activeService.shortDesc}
-                    </p>
-
-                    <p className="text-sm text-[#91A0AE] leading-relaxed mb-8">
-                      {activeService.details}
-                    </p>
-
-                    {/* Deliverables Checklist */}
-                    <div className="mb-8">
-                      <h4 className="text-xs font-display uppercase tracking-widest text-[#F4F7FA] font-bold mb-4 flex items-center gap-2">
-                        <Layers className="w-3.5 h-3.5 text-[#20D4FF]" />
-                        Key Operational Deliverables
-                      </h4>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        {activeService.deliverables.map((item, i) => (
-                          <div
-                            key={i}
-                            className="p-3 rounded-lg bg-[#111D27]/70 border border-white/[0.04] flex items-start gap-2.5 text-xs text-[#F4F7FA]"
-                          >
-                            <CheckCircle2 className="w-4 h-4 text-[#20D4FF] shrink-0 mt-0.5" />
-                            <span className="leading-snug">{item}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
+          {/* RIGHT: Large Active Service Detail Canvas */}
+          <div className="lg:col-span-7 lg:pl-8 lg:border-l lg:border-white/[0.08]">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeService.id}
+                id={`service-panel-${activeService.id}`}
+                role="tabpanel"
+                aria-labelledby={`service-tab-${activeService.id}`}
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -12 }}
+                transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                className="flex flex-col justify-between min-h-[480px]"
+              >
+                <div>
+                  {/* Top Metadata Strip */}
+                  <div className="flex items-center justify-between pb-4 border-b border-white/[0.06] mb-8">
+                    <span className="font-mono text-xs uppercase tracking-[0.2em] text-[#00BFEF]">
+                      PRACTICE {activeService.id} // {activeService.category}
+                    </span>
+                    <span className="font-mono text-xs text-[#536575]">
+                      REF: {activeService.code}
+                    </span>
                   </div>
 
-                  {/* Footer of Detail Panel: Tech Stack & Action */}
-                  <div className="pt-6 border-t border-white/[0.08] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                    <div>
-                      <div className="text-[11px] font-display uppercase tracking-wider text-[#91A0AE] mb-2 flex items-center gap-1.5">
-                        <Cpu className="w-3 h-3 text-[#20D4FF]" />
-                        Platform & Execution Focus
+                  {/* Large Editorial Title */}
+                  <h3 className="font-display font-semibold text-2xl sm:text-3xl md:text-4xl text-[#F4F7FA] tracking-tight leading-tight mb-6">
+                    {activeService.title}
+                  </h3>
+
+                  {/* Detailed Description */}
+                  <p className="text-base sm:text-lg text-[#91A0AE] leading-relaxed font-normal mb-8 max-w-2xl">
+                    {activeService.details}
+                  </p>
+
+                  {/* Key Deliverables Matrix */}
+                  <div className="mb-10">
+                    <div className="font-mono text-xs uppercase tracking-[0.18em] text-[#728495] mb-4">
+                      Core Operational Deliverables
+                    </div>
+                    <ul className="grid grid-cols-1 sm:grid-cols-2 gap-y-3 gap-x-6">
+                      {activeService.deliverables.map((item, i) => (
+                        <li key={i} className="flex items-start gap-2.5 text-sm text-[#C5D2DC]">
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#00BFEF] mt-2 shrink-0" />
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  {/* Platforms / Workflows Applied */}
+                  {activeService.technologies && (
+                    <div className="pt-6 border-t border-white/[0.06]">
+                      <div className="font-mono text-xs uppercase tracking-[0.18em] text-[#728495] mb-3">
+                        Applied Workflows & Tooling
                       </div>
-                      <div className="flex flex-wrap gap-1.5">
+                      <div className="flex flex-wrap gap-2">
                         {activeService.technologies.map((tech, i) => (
-                          <span
+                          <span 
                             key={i}
-                            className="px-2.5 py-1 rounded bg-[#081018] border border-white/[0.08] text-[11px] font-mono text-[#91A0AE]"
+                            className="font-mono text-xs text-[#91A0AE] px-2.5 py-1 bg-white/[0.03] border border-white/[0.06]"
                           >
                             {tech}
                           </span>
                         ))}
                       </div>
                     </div>
+                  )}
+                </div>
 
-                    <button
-                      onClick={onOpenContact}
-                      className="px-5 py-2.5 rounded bg-[#20D4FF] text-[#081018] font-display text-xs font-semibold uppercase tracking-wider hover:bg-[#4de3ff] transition-all flex items-center gap-1.5 shrink-0 shadow-md shadow-[#20D4FF]/20"
-                    >
-                      <span>Inquire Practice</span>
-                      <ArrowUpRight className="w-3.5 h-3.5" />
-                    </button>
-                  </div>
-                </motion.div>
-              </AnimatePresence>
-
-            </div>
+                {/* Inquiry Action Link */}
+                <div className="pt-10 mt-10 border-t border-white/[0.08] flex items-center justify-between">
+                  <span className="text-xs text-[#536575] font-mono">
+                    Operational deployment available on demand
+                  </span>
+                  <button
+                    onClick={onOpenContact}
+                    className="inline-flex items-center gap-2 text-sm font-display font-medium text-[#00BFEF] hover:text-[#4de3ff] transition-colors group cursor-pointer"
+                  >
+                    <span>Inquire About {activeService.title}</span>
+                    <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                  </button>
+                </div>
+              </motion.div>
+            </AnimatePresence>
           </div>
 
-        </div>
-
-        {/* Mobile Touch-Friendly Accordion View */}
-        <div className="lg:hidden space-y-3">
-          {servicesData.map((svc, idx) => {
-            const isOpen = activeIdx === idx;
-            return (
-              <div
-                key={svc.id}
-                className="rounded-xl bg-[#0D1720] border border-white/[0.08] overflow-hidden transition-all"
-              >
-                <button
-                  onClick={() => setActiveIdx(isOpen ? -1 : idx)}
-                  className="w-full p-4 flex items-center justify-between text-left focus:outline-none focus-visible:ring-1 focus-visible:ring-[#20D4FF]"
-                >
-                  <div className="flex items-center gap-3">
-                    <span className="font-display font-mono text-xs font-bold text-[#20D4FF]">
-                      {svc.id}
-                    </span>
-                    <div>
-                      <div className="font-display font-medium text-sm text-[#F4F7FA]">
-                        {svc.title}
-                      </div>
-                      <div className="text-[10px] text-[#91A0AE] uppercase tracking-wider mt-0.5">
-                        {svc.category}
-                      </div>
-                    </div>
-                  </div>
-                  <ChevronDown
-                    className={`w-4 h-4 text-[#91A0AE] transition-transform duration-200 ${
-                      isOpen ? 'rotate-180 text-[#20D4FF]' : ''
-                    }`}
-                  />
-                </button>
-
-                <AnimatePresence>
-                  {isOpen && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: 'auto', opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.25 }}
-                      className="px-4 pb-5 pt-1 border-t border-white/[0.04]"
-                    >
-                      <p className="text-xs text-[#20D4FF] font-medium mb-3">
-                        {svc.shortDesc}
-                      </p>
-                      <p className="text-xs text-[#91A0AE] leading-relaxed mb-4">
-                        {svc.details}
-                      </p>
-                      
-                      <div className="space-y-2 mb-4">
-                        <div className="text-[11px] font-display uppercase tracking-wider text-[#F4F7FA] font-bold">
-                          Deliverables:
-                        </div>
-                        {svc.deliverables.map((del, dIdx) => (
-                          <div key={dIdx} className="flex items-start gap-2 text-xs text-[#F4F7FA]">
-                            <CheckCircle2 className="w-3.5 h-3.5 text-[#20D4FF] shrink-0 mt-0.5" />
-                            <span>{del}</span>
-                          </div>
-                        ))}
-                      </div>
-
-                      <div className="pt-3 border-t border-white/[0.06] flex items-center justify-between">
-                        <div className="flex flex-wrap gap-1">
-                          {svc.technologies.slice(0, 2).map((t, ti) => (
-                            <span key={ti} className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#111D27] text-[#91A0AE]">
-                              {t}
-                            </span>
-                          ))}
-                        </div>
-                        <button
-                          onClick={onOpenContact}
-                          className="px-3 py-1.5 rounded bg-[#20D4FF] text-[#081018] text-[11px] font-display font-semibold uppercase tracking-wider"
-                        >
-                          Inquire
-                        </button>
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            );
-          })}
         </div>
 
       </div>

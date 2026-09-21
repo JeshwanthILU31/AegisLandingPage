@@ -1,65 +1,89 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { whyAegisData } from '../data/whyAegis';
-import { Shield, Check } from 'lucide-react';
+
+const manifestoPrinciples = [
+  {
+    num: "01",
+    title: "PRECISION",
+    headline: "Zero tolerance for procedural or evidentiary ambiguity.",
+    description: "Every dataset ingested, document reviewed, and artifact analyzed adheres to rigorous forensic standards. In litigation, regulatory inquiries, and incident triage, procedural exactness is the only foundation for defensible outcomes."
+  },
+  {
+    num: "02",
+    title: "EVIDENCE",
+    headline: "Unbroken cryptographic chain of custody across every lifecycle.",
+    description: "From volatile memory capture to final court-ready production sets, our methodologies guarantee mathematical integrity and complete traceability. Data integrity is never an assumption; it is continuously proven."
+  },
+  {
+    num: "03",
+    title: "STRUCTURE",
+    headline: "Engineering clarity from high-density chaos.",
+    description: "Multi-terabyte repositories, complex contract portfolios, and distributed breaches cannot be handled with ad-hoc solutions. We build repeatable, disciplined workflows that isolate critical signals from noise."
+  },
+  {
+    num: "04",
+    title: "CONTINUITY",
+    headline: "Sustaining operations through high-consequence disruption.",
+    description: "Whether navigating active threat actor containment, tight court deadlines, or massive compliance audits, our operational posture ensures organizations maintain resilience and strategic control."
+  }
+];
 
 export default function WhyAegis() {
   return (
-    <section className="relative py-28 bg-[#081018] border-t border-white/[0.06] overflow-hidden">
-      {/* Background Ambience */}
-      <div className="absolute top-1/3 right-10 w-96 h-96 bg-[#0D7892]/10 rounded-full blur-[140px] pointer-events-none" />
-      <div className="absolute inset-0 bg-tech-grid opacity-20 pointer-events-none" />
-
+    <section className="relative py-36 bg-[#081018] border-t border-white/[0.08] overflow-hidden text-[#F4F7FA]">
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
-        <div className="max-w-3xl mb-16">
-          <div className="mb-4">
-            <span className="tech-label">07 // WHY AEGIS</span>
+        <div className="max-w-3xl mb-24 sm:mb-32">
+          <div className="mb-3">
+            <span className="font-mono text-xs uppercase tracking-[0.25em] text-[#00BFEF]">
+              07 // OPERATIONAL MANIFESTO
+            </span>
           </div>
-          <h2 className="font-display font-bold text-3xl sm:text-4xl md:text-5xl text-[#F4F7FA] tracking-tight leading-tight">
-            A disciplined approach to complex work.
+          <h2 className="font-display font-semibold text-3xl sm:text-4xl md:text-5xl text-[#F4F7FA] tracking-tight leading-[1.12]">
+            The principles governing our work.
           </h2>
-          <p className="text-sm sm:text-base text-[#91A0AE] mt-4 leading-relaxed">
-            Factual principles governing our operational delivery, forensic precision, and information security standards.
+          <p className="text-base text-[#91A0AE] mt-4 leading-relaxed max-w-2xl font-normal">
+            Factual operational standards that govern every eDiscovery review, digital forensic investigation, and data governance workflow at Aegis.
           </p>
         </div>
 
-        {/* 7 Factual Pillars Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {whyAegisData.map((item, idx) => (
-            <div
-              key={item.number}
-              className={`p-7 rounded-2xl bg-[#0D1720] border border-white/[0.08] hover:border-[#20D4FF]/40 transition-all duration-300 flex flex-col justify-between group ${
-                idx === 6 ? 'md:col-span-2 lg:col-span-1' : ''
-              }`}
+        {/* EDITORIAL MANIFESTO (LARGE TYPOGRAPHY, NO CARDS) */}
+        <div className="space-y-24 sm:space-y-36">
+          {manifestoPrinciples.map((item, idx) => (
+            <motion.div
+              key={item.num}
+              initial={{ opacity: 0, y: 32 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+              className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-baseline border-b border-white/[0.08] pb-20 sm:pb-28"
             >
-              <div>
-                <div className="flex items-center justify-between mb-5">
-                  <span className="font-mono text-xs font-bold text-[#20D4FF] px-2.5 py-1 rounded bg-[#111D27] border border-white/[0.06]">
-                    PRINCIPLE {item.number}
-                  </span>
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#0D7892] group-hover:bg-[#20D4FF] transition-colors" />
+              {/* Number & Massive Principle Name */}
+              <div className="lg:col-span-6">
+                <div className="font-mono text-xs text-[#00BFEF] tracking-[0.2em] mb-4">
+                  PRINCIPLE // {item.num}
                 </div>
-
-                <h3 className="font-display font-bold text-lg sm:text-xl text-[#F4F7FA] mb-2 group-hover:text-[#20D4FF] transition-colors">
+                <h3 className="font-display font-black text-5xl sm:text-7xl lg:text-8xl tracking-tight text-[#F4F7FA] leading-none">
                   {item.title}
                 </h3>
+              </div>
 
-                <div className="text-xs font-mono text-[#20D4FF]/80 mb-4 font-medium">
+              {/* Supporting Editorial Statement & Narrative */}
+              <div className="lg:col-span-6 space-y-6">
+                <h4 className="font-display font-semibold text-xl sm:text-2xl text-[#F4F7FA] leading-snug">
                   {item.headline}
-                </div>
-
-                <p className="text-xs sm:text-sm text-[#91A0AE] leading-relaxed">
+                </h4>
+                <p className="text-base sm:text-lg text-[#91A0AE] leading-relaxed font-normal">
                   {item.description}
                 </p>
+                <div className="pt-4 flex items-center gap-4 text-xs font-mono text-[#536575]">
+                  <span>AEGIS STANDARD {item.num} / 04</span>
+                  <span>·</span>
+                  <span className="text-[#00BFEF]">VERIFIED DISCIPLINE</span>
+                </div>
               </div>
-
-              <div className="mt-6 pt-4 border-t border-white/[0.04] flex items-center justify-between text-[11px] font-mono text-[#5E7182]">
-                <span>VERIFIED STANDARD</span>
-                <span className="text-[#20D4FF]">0{idx + 1} / 07</span>
-              </div>
-            </div>
+            </motion.div>
           ))}
         </div>
 
