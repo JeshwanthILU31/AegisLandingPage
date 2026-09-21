@@ -1,0 +1,52 @@
+.depth-text-wrapper {
+  position: relative;
+  display: inline-block;
+  user-select: none;
+  touch-action: none;
+  transform-style: preserve-3d;
+  line-height: 1.05;
+  text-align: center;
+}
+
+.depth-text-stage {
+  position: relative;
+  display: inline-block;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.depth-text-layer {
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  white-space: nowrap;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.depth-text-layer--front {
+  position: relative;
+  pointer-events: auto;
+}
+
+.depth-text-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .depth-text-stage {
+    transform: none !important;
+  }
+}

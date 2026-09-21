@@ -1,0 +1,147 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  --color-bg-base: #081018;
+  --color-bg-surface: #0D1720;
+  --color-bg-elevated: #111D27;
+  --color-bg-highlight: #172635;
+
+  --color-text-primary: #F4F7FA;
+  --color-text-secondary: #91A0AE;
+  --color-text-muted: #5E7182;
+
+  --color-accent-cyan: #20D4FF;
+  --color-accent-cyan-muted: #0D7892;
+  --color-accent-cyan-glow: rgba(32, 212, 255, 0.15);
+
+  --color-border-subtle: rgba(255, 255, 255, 0.08);
+  --color-border-hover: rgba(32, 212, 255, 0.3);
+}
+
+:root {
+  --bg-base: #081018;
+  --bg-surface: #0D1720;
+  --bg-elevated: #111D27;
+  --text-primary: #F4F7FA;
+  --text-secondary: #91A0AE;
+  --cyan-primary: #20D4FF;
+  --cyan-muted: #0D7892;
+  --border-subtle: rgba(255, 255, 255, 0.08);
+}
+
+/* Base resets & typography */
+html {
+  font-family: var(--font-sans);
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  color-scheme: dark;
+}
+
+h1, h2, h3, h4, h5, h6, .font-display {
+  font-family: var(--font-display);
+}
+
+/* Custom subtle scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #081018;
+}
+::-webkit-scrollbar-thumb {
+  background: #172635;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #0D7892;
+}
+
+/* Technical grid patterns */
+.bg-tech-grid {
+  background-size: 40px 40px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+}
+
+.bg-tech-grid-dense {
+  background-size: 20px 20px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+}
+
+.bg-radial-gradient {
+  background: radial-gradient(circle at 50% 20%, rgba(13, 120, 146, 0.12) 0%, rgba(8, 16, 24, 0) 70%);
+}
+
+.bg-radial-cyan-top {
+  background: radial-gradient(ellipse at 50% -20%, rgba(32, 212, 255, 0.12) 0%, rgba(8, 16, 24, 0) 65%);
+}
+
+.bg-radial-accent {
+  background: radial-gradient(circle at center, rgba(32, 212, 255, 0.08) 0%, rgba(13, 23, 32, 0) 70%);
+}
+
+/* Restrained scanline effect */
+@keyframes scanline {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(1000%);
+  }
+}
+
+.animate-scanline {
+  animation: scanline 8s linear infinite;
+}
+
+/* Subtle glow utilities */
+.glow-cyan-subtle {
+  box-shadow: 0 0 25px -5px rgba(32, 212, 255, 0.15);
+}
+
+.glow-cyan-border {
+  border-color: rgba(32, 212, 255, 0.4);
+  box-shadow: 0 0 15px rgba(32, 212, 255, 0.15), inset 0 0 15px rgba(32, 212, 255, 0.05);
+}
+
+.text-glow {
+  text-shadow: 0 0 20px rgba(32, 212, 255, 0.35);
+}
+
+/* Technical badge / label style */
+.tech-label {
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #20D4FF;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.tech-label::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  background-color: #20D4FF;
+  border-radius: 1px;
+}
+
+/* Smooth motion accessibility fallback */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
