@@ -1,90 +1,60 @@
-import { useRef, useEffect, useState } from 'react';
-import { useSprings, animated } from '@react-spring/web';
+import React, { useRef } from 'react';
+import { motion, useInView } from 'framer-motion';
 
 export default function BlurText({
   text = '',
-  delay = 100,
+  delay = 0.05,
   className = '',
   animateBy = 'words', // 'words' | 'letters'
   direction = 'top', // 'top' | 'bottom'
-  threshold = 0.1,
-  rootMargin = '0px',
-  animationFrom,
-  animationTo,
-  easing = 'easeOutCubic',
-  onAnimationComplete,
 }) {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: '-50px' });
   const elements = animateBy === 'words' ? text.split(' ') : text.split('');
-  const [inView, setInView] = useState(false);
-  const ref = useRef();
-  const animatedCount = useRef(0);
 
-  // Default animations based on direction
-  const defaultFrom =
-    direction === 'top'
-      ? { filter: 'blur(10px)', opacity: 0, transform: 'translate3d(0,-20px,0)' }
-      : { filter: 'blur(10px)', opacity: 0, transform: 'translate3d(0,20px,0)' };
-
-  const defaultTo = [
-    {
-      filter: 'blur(4px)',
-      opacity: 0.6,
-      transform: direction === 'top' ? 'translate3d(0,4px,0)' : 'translate3d(0,-4px,0)',
-    },
-    { filter: 'blur(0px)', opacity: 1, transform: 'translate3d(0,0px,0)' },
-  ];
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setInView(true);
-          if (ref.current) {
-            observer.unobserve(ref.current);
-          }
-        }
+  const containerVariants = {
+    hidden: {},
+    visible: {
+      transition: {
+        staggerChildren: delay,
       },
-      { threshold, rootMargin }
-    );
+    },
+  };
 
-    if (ref.current) {
-      observer.observe(ref.current);
-    }
-
-    return () => observer.disconnect();
-  }, [threshold, rootMargin]);
-
-  const springs = useSprings(
-    elements.length,
-    elements.map((_, i) => ({
-      from: animationFrom || defaultFrom,
-      to: inView
-        ? async (next) => {
-          for (const step of (animationTo || defaultTo)) {
-            await next(step);
-          }
-          animatedCount.current += 1;
-          if (animatedCount.current === elements.length && onAnimationComplete) {
-            onAnimationComplete();
-          }
-        }
-        : animationFrom || defaultFrom,
-      delay: i * delay,
-      config: { easing: (t) => t },
-    }))
-  );
+  const itemVariants = {
+    hidden: {
+      filter: 'blur(10px)',
+      opacity: 0,
+      y: direction === 'top' ? -16 : 16,
+    },
+    visible: {
+      filter: 'blur(0px)',
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.5,
+        ease: [0.16, 1, 0.3, 1],
+      },
+    },
+  };
 
   return (
-    <span ref={ref} className={`blur-text inline-flex flex-wrap ${className}`}>
-      {springs.map((props, index) => (
-        <animated.span
-          key={index}
-          style={props}
-          className="inline-block will-change-transform will-change-filter mr-[0.25em]"
+    <motion.span
+      ref={ref}
+      variants={containerVariants}
+      initial="hidden"
+      animate={isInView ? 'visible' : 'hidden'}
+      className={`inline-flex flex-wrap ${className}`}
+    >
+      {elements.map((el, i) => (
+        <motion.span
+          key={i}
+          variants={itemVariants}
+          className="inline-block mr-[0.25em]"
         >
-          {elements[index] === ' ' ? '\u00A0' : elements[index]}
-        </animated.span>
+          {el === ' ' ? '\u00A0' : el}
+        </motion.span>
       ))}
-    </span>
+    </motion.span>
   );
 }

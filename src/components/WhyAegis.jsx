@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import ShinyText from './ShinyText';
 
 const manifestoPrinciples = [
   {
@@ -17,7 +18,7 @@ const manifestoPrinciples = [
   {
     num: "03",
     title: "STRUCTURE",
-    headline: "Engineering clarity from high-density chaos.",
+    headline: "Engineering clarity from high-density data complexity.",
     description: "Multi-terabyte repositories, complex contract portfolios, and distributed breaches cannot be handled with ad-hoc solutions. We build repeatable, disciplined workflows that isolate critical signals from noise."
   },
   {
@@ -35,10 +36,15 @@ export default function WhyAegis() {
         
         {/* Section Header */}
         <div className="max-w-3xl mb-24 sm:mb-32">
-          <div className="mb-3">
-            <span className="font-mono text-xs uppercase tracking-[0.25em] text-[#00BFEF]">
-              07 // OPERATIONAL MANIFESTO
-            </span>
+          <div className="mb-4">
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/[0.03] border border-white/[0.08]">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#00BFEF]" />
+              <ShinyText 
+                text="07 // OPERATIONAL MANIFESTO" 
+                className="font-mono text-xs uppercase tracking-[0.2em] font-medium"
+                speed={4}
+              />
+            </div>
           </div>
           <h2 className="font-display font-semibold text-3xl sm:text-4xl md:text-5xl text-[#F4F7FA] tracking-tight leading-[1.12]">
             The principles governing our work.
@@ -48,9 +54,9 @@ export default function WhyAegis() {
           </p>
         </div>
 
-        {/* EDITORIAL MANIFESTO (LARGE TYPOGRAPHY, NO CARDS) */}
+        {/* EDITORIAL MANIFESTO (CLASSIC HIGH-CONTRAST TYPOGRAPHY) */}
         <div className="space-y-24 sm:space-y-36">
-          {manifestoPrinciples.map((item, idx) => (
+          {manifestoPrinciples.map((item) => (
             <motion.div
               key={item.num}
               initial={{ opacity: 0, y: 32 }}
@@ -61,10 +67,10 @@ export default function WhyAegis() {
             >
               {/* Number & Massive Principle Name */}
               <div className="lg:col-span-6">
-                <div className="font-mono text-xs text-[#00BFEF] tracking-[0.2em] mb-4">
+                <div className="font-mono text-xs text-[#00BFEF] tracking-[0.2em] mb-4 font-semibold">
                   PRINCIPLE // {item.num}
                 </div>
-                <h3 className="font-display font-black text-5xl sm:text-7xl lg:text-8xl tracking-tight text-[#F4F7FA] leading-none">
+                <h3 className="font-display font-black text-5xl sm:text-7xl lg:text-8xl tracking-tight text-[#F4F7FA] leading-none hover:text-[#00BFEF] transition-colors duration-300">
                   {item.title}
                 </h3>
               </div>

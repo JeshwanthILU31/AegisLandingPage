@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { incidentCapabilities } from '../data/incident';
-import { ArrowUpRight, Terminal, Shield, ChevronRight } from 'lucide-react';
+import { ArrowUpRight, Terminal, Shield, ChevronRight, Check } from 'lucide-react';
+import SpotlightCard from './SpotlightCard';
+import ShinyText from './ShinyText';
+import DecryptedText from './DecryptedText';
 
 const consolePhases = [
   {
@@ -84,27 +87,34 @@ export default function IncidentResponse({ onOpenContact }) {
         
         {/* Section Header */}
         <div className="max-w-3xl mb-16 sm:mb-20">
-          <div className="mb-3">
-            <span className="font-mono text-xs uppercase tracking-[0.25em] text-[#00BFEF]">
-              05 // INCIDENT RESPONSE CONSOLE
-            </span>
+          <div className="mb-4">
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/[0.03] border border-white/[0.08]">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#00BFEF]" />
+              <ShinyText 
+                text="05 // INCIDENT RESPONSE CONSOLE" 
+                className="font-mono text-xs uppercase tracking-[0.2em] font-medium"
+                speed={4.2}
+              />
+            </div>
           </div>
           <h2 className="font-display font-semibold text-3xl sm:text-4xl md:text-5xl text-[#F4F7FA] tracking-tight leading-[1.12]">
-            Methodical containment and forensic investigation.
+            Methodical containment & digital forensics lifecycle.
           </h2>
           <p className="text-base text-[#91A0AE] mt-4 leading-relaxed max-w-2xl font-normal">
             A structured operational console representing the forensic lifecycle deployed when organizations face complex security compromises and data exposure.
           </p>
         </div>
 
-        {/* INCIDENT RESPONSE CONSOLE INTERFACE */}
-        <div className="border border-white/[0.08] bg-[#0A121A] p-6 sm:p-10 mb-20 relative">
-          
+        {/* INCIDENT RESPONSE CONSOLE DECK */}
+        <SpotlightCard 
+          className="border border-white/[0.08] bg-[#0A121A]/95 p-6 sm:p-10 mb-20 shadow-2xl relative overflow-hidden"
+          spotlightColor="rgba(32, 212, 255, 0.1)"
+        >
           {/* Console Header Bar */}
           <div className="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-white/[0.08] font-mono text-xs">
             <div className="flex items-center gap-3">
               <span className="w-2 h-2 rounded-full bg-[#00BFEF]" />
-              <span className="text-[#F4F7FA] tracking-widest uppercase">WORKFLOW CONSOLE // STAGES 01–05</span>
+              <span className="text-[#F4F7FA] tracking-widest uppercase font-semibold">WORKFLOW CONSOLE // STAGES 01–05</span>
             </div>
             <div className="text-[#536575]">
               FRAMEWORK: FORENSIC INVESTIGATION & BREACH MITIGATION
@@ -158,8 +168,9 @@ export default function IncidentResponse({ onOpenContact }) {
             >
               {/* Phase Overview */}
               <div className="lg:col-span-6 space-y-4">
-                <div className="font-mono text-xs text-[#00BFEF] uppercase tracking-[0.2em]">
-                  {activePhase.code} // {activePhase.name}
+                <div className="font-mono text-xs text-[#00BFEF] uppercase tracking-[0.2em] flex items-center gap-2">
+                  <span>{activePhase.code} //</span>
+                  <DecryptedText text={activePhase.name} speed={30} />
                 </div>
                 <h3 className="font-display font-semibold text-2xl sm:text-3xl text-[#F4F7FA] tracking-tight">
                   {activePhase.headline}
@@ -182,7 +193,7 @@ export default function IncidentResponse({ onOpenContact }) {
                 <div className="space-y-3">
                   {activePhase.actions.map((act, i) => (
                     <div key={i} className="flex items-start gap-3 p-3 bg-white/[0.02] border border-white/[0.05]">
-                      <span className="font-mono text-xs text-[#00BFEF] mt-0.5">0{i + 1}</span>
+                      <Check className="w-4 h-4 text-[#00BFEF] shrink-0 mt-0.5" />
                       <span className="text-sm text-[#C5D2DC] font-normal leading-relaxed">{act}</span>
                     </div>
                   ))}
@@ -203,19 +214,19 @@ export default function IncidentResponse({ onOpenContact }) {
             </button>
           </div>
 
-        </div>
+        </SpotlightCard>
 
-        {/* Structured Technical Discipline Index (No Cards) */}
+        {/* Structured Technical Discipline Ledger (Classic Editorial Layout) */}
         <div>
           <div className="font-mono text-xs uppercase tracking-[0.25em] text-[#728495] mb-6 pb-2 border-b border-white/[0.08]">
-            Forensic & Incident Response Capabilities
+            Forensic & Incident Response Capabilities Ledger
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 divide-y md:divide-y-0 divide-white/[0.06]">
-            {incidentCapabilities.slice(0, 8).map((cap, i) => (
-              <div key={cap.number} className="py-4 flex items-start justify-between gap-4 border-b border-white/[0.06]">
+            {incidentCapabilities.slice(0, 8).map((cap) => (
+              <div key={cap.number} className="py-4.5 flex items-start justify-between gap-4 border-b border-white/[0.06] hover:bg-white/[0.01] px-2 transition-colors">
                 <div>
                   <div className="flex items-center gap-3 mb-1">
-                    <span className="font-mono text-xs text-[#00BFEF]">{cap.number}</span>
+                    <span className="font-mono text-xs text-[#00BFEF] font-semibold">{cap.number}</span>
                     <span className="font-display text-sm font-semibold text-[#F4F7FA]">{cap.title}</span>
                   </div>
                   <p className="text-xs text-[#91A0AE] font-normal leading-relaxed pl-7">
