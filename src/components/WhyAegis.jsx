@@ -40,7 +40,7 @@ export default function WhyAegis() {
             <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/[0.03] border border-white/[0.08]">
               <span className="w-1.5 h-1.5 rounded-full bg-[#00BFEF]" />
               <ShinyText 
-                text="07 // OPERATIONAL MANIFESTO" 
+                text="WHY AEGIS // OPERATIONAL STANDARDS" 
                 className="font-mono text-xs uppercase tracking-[0.2em] font-medium"
                 speed={4}
               />

@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { ArrowDown, ArrowUpRight, Shield, Terminal, Cpu, CheckCircle2 } from 'lucide-react';
 import AegisHeroBackground from './AegisHeroBackground';
 import ParticleText from './ParticleText';
-import SplitText from './SplitText';
+import FoldText from './FoldText';
 
 export default function Hero({ onOpenContact }) {
   const scrollToServices = (e) => {
@@ -36,16 +36,16 @@ export default function Hero({ onOpenContact }) {
             </span>
           </motion.div>
 
-          {/* React Bits ParticleText Centerpiece */}
+          {/* React Bits ParticleText Centerpiece (Larger text size) */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
-            className="w-full max-w-3xl h-[180px] sm:h-[220px] md:h-[260px] mb-2 flex items-center justify-center"
+            className="w-full max-w-4xl h-[220px] sm:h-[280px] md:h-[340px] mb-2 flex items-center justify-center"
           >
             <ParticleText
               text="Aegis Services"
-              particleSize={2}
+              particleSize={2.2}
               density={4}
               color="#0B1724"
               highlightColor="#00BFEF"
@@ -56,50 +56,59 @@ export default function Hero({ onOpenContact }) {
               repelRadius={120}
               idleDrift={0.5}
               trigger="mount"
-              fontSize="clamp(2.5rem, 8vw, 5.5rem)"
+              fontSize="clamp(3.8rem, 11vw, 7.5rem)"
               fontWeight={800}
               fontFamily="'Space Grotesk', -apple-system, sans-serif"
               glow={true}
             />
           </motion.div>
 
-          {/* Main Editorial Headline using React Bits SplitText */}
-          <h1 className="font-display font-black text-3xl sm:text-5xl md:text-6xl lg:text-[4.2rem] tracking-tight leading-[1.08] text-center flex flex-col items-center justify-center mb-8">
-            <SplitText
-              tag="span"
+          {/* Main Editorial Headline using React Bits FoldText */}
+          <h1 className="font-display font-black text-3xl sm:text-5xl md:text-6xl lg:text-[4.2rem] tracking-tight leading-[1.08] text-center flex flex-col items-center justify-center mb-8 gap-1">
+            <FoldText
               text="COMPLEX DATA."
-              splitType="words"
-              delay={70}
-              duration={0.75}
+              splitBy="char"
+              hinge="top"
+              trigger="mount"
+              duration={0.65}
+              stagger={0.035}
               ease="power3.out"
-              from={{ opacity: 0, y: 28 }}
-              to={{ opacity: 1, y: 0 }}
-              textAlign="center"
-              className="text-[#0B1724]"
+              perspective={700}
+              creaseShading={0.4}
+              fontSize="clamp(2rem, 5.5vw, 4.2rem)"
+              fontWeight={900}
+              color="#0B1724"
+              className="font-display font-black tracking-tight"
             />
-            <SplitText
-              tag="span"
+            <FoldText
               text="CRITICAL WORK."
-              splitType="words"
-              delay={90}
-              duration={0.75}
+              splitBy="char"
+              hinge="top"
+              trigger="mount"
+              duration={0.65}
+              stagger={0.035}
               ease="power3.out"
-              from={{ opacity: 0, y: 28 }}
-              to={{ opacity: 1, y: 0 }}
-              textAlign="center"
-              className="text-[#0B1724]"
+              perspective={700}
+              creaseShading={0.4}
+              fontSize="clamp(2rem, 5.5vw, 4.2rem)"
+              fontWeight={900}
+              color="#0B1724"
+              className="font-display font-black tracking-tight"
             />
-            <SplitText
-              tag="span"
+            <FoldText
               text="CLEAR OUTCOMES."
-              splitType="words"
-              delay={110}
-              duration={0.75}
+              splitBy="char"
+              hinge="top"
+              trigger="mount"
+              duration={0.65}
+              stagger={0.035}
               ease="power3.out"
-              from={{ opacity: 0, y: 28 }}
-              to={{ opacity: 1, y: 0 }}
-              textAlign="center"
-              className="text-[#00BFEF]"
+              perspective={700}
+              creaseShading={0.4}
+              fontSize="clamp(2rem, 5.5vw, 4.2rem)"
+              fontWeight={900}
+              color="#00BFEF"
+              className="font-display font-black tracking-tight"
             />
           </h1>
 

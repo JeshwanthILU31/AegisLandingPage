@@ -1,12 +1,9 @@
 import React, { useState } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
-import Introduction from './components/Introduction';
+import ProjectStats from './components/ProjectStats';
 import Services from './components/Services';
 import Technology from './components/Technology';
-import Workflow from './components/Workflow';
-import IncidentResponse from './components/IncidentResponse';
-import Capabilities from './components/Capabilities';
 import WhyAegis from './components/WhyAegis';
 import CTA from './components/CTA';
 import Footer from './components/Footer';
@@ -24,7 +21,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#081018] text-[#F4F7FA] font-sans antialiased selection:bg-[#20D4FF]/20 selection:text-[#20D4FF]">
+    <div className="min-h-screen bg-[#081018] text-[#F4F7FA] font-sans antialiased selection:bg-[#00BFEF]/20 selection:text-[#00BFEF]">
       {/* Navbar */}
       <Navbar onOpenContact={handleOpenContact} />
 
@@ -32,28 +29,19 @@ export default function App() {
         {/* Hero Section */}
         <Hero onOpenContact={handleOpenContact} />
 
-        {/* 01 Introduction */}
-        <Introduction />
+        {/* Project Stats Section */}
+        <ProjectStats />
 
-        {/* 02 Services Explorer */}
+        {/* 01 The 7 Core Services Explorer */}
         <Services onOpenContact={handleOpenContact} />
 
-        {/* 03 eDiscovery Technology */}
+        {/* 02 eDiscovery Technology Architecture */}
         <Technology />
 
-        {/* 04 Approach / Workflow */}
-        <Workflow />
-
-        {/* 05 Data Breach Support */}
-        <IncidentResponse onOpenContact={handleOpenContact} />
-
-        {/* 06 Capabilities Bento */}
-        <Capabilities onOpenContact={handleOpenContact} />
-
-        {/* 07 Why Aegis */}
+        {/* 03 Operational Principles / Why Aegis */}
         <WhyAegis />
 
-        {/* 08 Final CTA */}
+        {/* 04 Final Call to Action */}
         <CTA onOpenContact={handleOpenContact} />
       </main>
 

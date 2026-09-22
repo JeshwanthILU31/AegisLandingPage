@@ -24,7 +24,7 @@ export default function CTA({ onOpenContact }) {
             <div className="inline-flex items-center gap-2 px-3.5 py-1 bg-white/[0.03] border border-white/[0.08]">
               <span className="w-1.5 h-1.5 rounded-full bg-[#00BFEF]" />
               <ShinyText 
-                text="08 // ENGAGE AEGIS SERVICES" 
+                text="ENGAGE AEGIS SERVICES" 
                 className="font-mono text-xs uppercase tracking-[0.25em] font-medium"
                 speed={4}
               />

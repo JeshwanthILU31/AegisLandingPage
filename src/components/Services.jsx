@@ -40,7 +40,7 @@ export default function Services({ onOpenContact }) {
             <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/[0.03] border border-white/[0.08]">
               <span className="w-1.5 h-1.5 rounded-full bg-[#00BFEF]" />
               <ShinyText 
-                text="02 // OPERATIONAL PRACTICE AREAS" 
+                text="OUR SERVICES // 07 CORE DISCIPLINES" 
                 className="font-mono text-xs uppercase tracking-[0.2em] font-medium"
                 speed={4.5}
               />
@@ -75,6 +75,8 @@ export default function Services({ onOpenContact }) {
                   aria-controls={`service-panel-${svc.id}`}
                   tabIndex={isActive ? 0 : -1}
                   onClick={() => setActiveIdx(idx)}
+                  onMouseEnter={() => setActiveIdx(idx)}
+                  onFocus={() => setActiveIdx(idx)}
                   onKeyDown={(e) => handleKeyDown(e, idx)}
                   className={`group w-full p-4 sm:p-5 text-left transition-all duration-200 flex items-center justify-between border relative cursor-pointer ${
                     isActive 
