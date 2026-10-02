@@ -1,7 +1,7 @@
 import React from 'react';
-import { Shield, ArrowUp } from 'lucide-react';
+import { ArrowUp } from 'lucide-react';
 
-export default function Footer({ onOpenContact }) {
+export default function Footer({ onOpenContact, currentPath = '/', onNavigate }) {
   const scrollToTop = (e) => {
     e.preventDefault();
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -9,9 +9,37 @@ export default function Footer({ onOpenContact }) {
 
   const handleNavClick = (e, href) => {
     e.preventDefault();
-    const target = document.querySelector(href);
-    if (target) {
-      target.scrollIntoView({ behavior: 'smooth' });
+    if (href === '/careers') {
+      if (onNavigate) {
+        onNavigate('/careers');
+      } else {
+        window.history.pushState({}, '', '/careers');
+        window.dispatchEvent(new PopStateEvent('popstate'));
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+
+    if (href.startsWith('#')) {
+      if (currentPath !== '/') {
+        if (onNavigate) {
+          onNavigate('/');
+        } else {
+          window.history.pushState({}, '', '/');
+          window.dispatchEvent(new PopStateEvent('popstate'));
+        }
+        setTimeout(() => {
+          const target = document.querySelector(href);
+          if (target) {
+            target.scrollIntoView({ behavior: 'smooth' });
+          }
+        }, 120);
+      } else {
+        const target = document.querySelector(href);
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
     }
   };
 
@@ -25,17 +53,27 @@ export default function Footer({ onOpenContact }) {
           {/* Brand & Mission (Col 1-4) */}
           <div className="lg:col-span-4 space-y-4">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded bg-[#0D1720] border border-[#00BFEF]/40 flex items-center justify-center">
-                <Shield className="w-4 h-4 text-[#00BFEF]" />
-              </div>
-              <div>
-                <div className="font-display font-bold text-sm tracking-[0.16em] text-[#F4F7FA]">
-                  AEGIS SERVICES
-                </div>
-                <div className="text-[10px] uppercase tracking-wider text-[#536575]">
-                  Precision Data & Legal Operations
-                </div>
-              </div>
+              <a
+                href="/"
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (currentPath !== '/') {
+                    if (onNavigate) onNavigate('/');
+                    else {
+                      window.history.pushState({}, '', '/');
+                      window.dispatchEvent(new PopStateEvent('popstate'));
+                    }
+                  }
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                className="flex items-center gap-2"
+              >
+                <img
+                  src="/assets/aegis-data-services-logo.png"
+                  alt="AEGIS Data Services LLP"
+                  className="h-8 w-auto object-contain bg-white rounded px-2 py-0.5"
+                />
+              </a>
             </div>
 
             <p className="text-xs text-[#728495] leading-relaxed max-w-sm pt-2">
@@ -117,20 +155,20 @@ export default function Footer({ onOpenContact }) {
               </li>
               <li>
                 <a
+                  href="/careers"
+                  onClick={(e) => handleNavClick(e, '/careers')}
+                  className="text-[#91A0AE] hover:text-[#00BFEF] transition-colors"
+                >
+                  Careers
+                </a>
+              </li>
+              <li>
+                <a
                   href="#approach"
                   onClick={(e) => handleNavClick(e, '#approach')}
                   className="text-[#91A0AE] hover:text-[#00BFEF] transition-colors"
                 >
                   Investigation Approach
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#capabilities"
-                  onClick={(e) => handleNavClick(e, '#capabilities')}
-                  className="text-[#91A0AE] hover:text-[#00BFEF] transition-colors"
-                >
-                  Capabilities Index
                 </a>
               </li>
               <li>
