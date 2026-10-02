@@ -61,7 +61,7 @@ export default function ProjectStats() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="font-display font-black text-3xl sm:text-4xl md:text-5xl tracking-tight leading-[1.15] text-[#F4F7FA]"
+              className="font-display font-bold text-3xl sm:text-4xl md:text-5xl tracking-tight leading-[1.15] text-[#F4F7FA]"
             >
               Project Stats You Can’t Ignore!
             </motion.h2>
@@ -87,7 +87,7 @@ export default function ProjectStats() {
                   <Cog className="w-6 h-6 animate-[spin_12s_linear_infinite]" />
                 </div>
                 <div>
-                  <div className="font-display font-black text-4xl sm:text-5xl text-[#00BFEF] tracking-tight leading-none mb-2">
+                  <div className="font-display font-bold text-4xl sm:text-5xl text-[#00BFEF] tracking-tight leading-none mb-2">
                     <CountUp to={100} duration={2} suffix="+" />
                   </div>
                   <div className="font-display font-bold text-lg text-[#F4F7FA]">
@@ -104,7 +104,7 @@ export default function ProjectStats() {
                   <Users className="w-6 h-6" />
                 </div>
                 <div>
-                  <div className="font-display font-black text-4xl sm:text-5xl text-[#00BFEF] tracking-tight leading-none mb-2">
+                  <div className="font-display font-bold text-4xl sm:text-5xl text-[#00BFEF] tracking-tight leading-none mb-2">
                     <CountUp to={50} duration={2} suffix="+" />
                   </div>
                   <div className="font-display font-bold text-lg text-[#F4F7FA]">
@@ -122,7 +122,7 @@ export default function ProjectStats() {
                   <Briefcase className="w-6 h-6" />
                 </div>
                 <div>
-                  <div className="font-display font-black text-4xl sm:text-5xl text-[#00BFEF] tracking-tight leading-none mb-2">
+                  <div className="font-display font-bold text-4xl sm:text-5xl text-[#00BFEF] tracking-tight leading-none mb-2">
                     <CountUp to={400} duration={2} suffix="+" />
                   </div>
                   <div className="font-display font-bold text-lg text-[#F4F7FA]">
@@ -139,7 +139,7 @@ export default function ProjectStats() {
                   <UserCheck className="w-6 h-6" />
                 </div>
                 <div>
-                  <div className="font-display font-black text-4xl sm:text-5xl text-[#00BFEF] tracking-tight leading-none mb-2">
+                  <div className="font-display font-bold text-4xl sm:text-5xl text-[#00BFEF] tracking-tight leading-none mb-2">
                     <CountUp to={600} duration={2} suffix="+" />
                   </div>
                   <div className="font-display font-bold text-lg text-[#F4F7FA]">

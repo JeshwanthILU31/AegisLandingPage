@@ -57,14 +57,14 @@ export default function Hero({ onOpenContact }) {
               idleDrift={0.5}
               trigger="mount"
               fontSize="clamp(3.8rem, 11vw, 7.5rem)"
-              fontWeight={800}
-              fontFamily="'Space Grotesk', -apple-system, sans-serif"
+              fontWeight={700}
+              fontFamily="'Poppins', sans-serif"
               glow={true}
             />
           </motion.div>
 
           {/* Main Editorial Headline using React Bits FoldText */}
-          <h1 className="font-display font-black text-3xl sm:text-5xl md:text-6xl lg:text-[4.2rem] tracking-tight leading-[1.08] text-center flex flex-col items-center justify-center mb-8 gap-1">
+          <h1 className="font-display font-bold text-3xl sm:text-5xl md:text-6xl lg:text-[4.2rem] tracking-tight leading-[1.08] text-center flex flex-col items-center justify-center mb-8 gap-1">
             <FoldText
               text="COMPLEX DATA."
               splitBy="char"
@@ -76,9 +76,9 @@ export default function Hero({ onOpenContact }) {
               perspective={700}
               creaseShading={0.4}
               fontSize="clamp(2rem, 5.5vw, 4.2rem)"
-              fontWeight={900}
+              fontWeight={700}
               color="#0B1724"
-              className="font-display font-black tracking-tight"
+              className="font-display font-bold tracking-tight"
             />
             <FoldText
               text="CRITICAL WORK."
@@ -91,9 +91,9 @@ export default function Hero({ onOpenContact }) {
               perspective={700}
               creaseShading={0.4}
               fontSize="clamp(2rem, 5.5vw, 4.2rem)"
-              fontWeight={900}
+              fontWeight={700}
               color="#0B1724"
-              className="font-display font-black tracking-tight"
+              className="font-display font-bold tracking-tight"
             />
             <FoldText
               text="CLEAR OUTCOMES."
@@ -106,9 +106,9 @@ export default function Hero({ onOpenContact }) {
               perspective={700}
               creaseShading={0.4}
               fontSize="clamp(2rem, 5.5vw, 4.2rem)"
-              fontWeight={900}
+              fontWeight={700}
               color="#00BFEF"
-              className="font-display font-black tracking-tight"
+              className="font-display font-bold tracking-tight"
             />
           </h1>
 
@@ -152,9 +152,9 @@ export default function Hero({ onOpenContact }) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.5 }}
-            className="mt-16 pt-8 border-t border-[#DCE5EA] w-full grid grid-cols-2 md:grid-cols-4 gap-4 text-left"
+            className="mt-11 pt-6 border-t border-[#D8E2EC] w-full grid grid-cols-2 md:grid-cols-4 gap-4 text-left"
           >
-            <div className="p-3.5 rounded-xl bg-white/[0.72] border border-[#DCE5EA] shadow-xs backdrop-blur-xs">
+            <div className="p-3.5 rounded-xl bg-[#F1F5F9] border border-[#D8E2EC] shadow-xs">
               <div className="flex items-center gap-2 text-[11px] font-display uppercase tracking-wider text-[#536575] mb-1">
                 <Shield className="w-3.5 h-3.5 text-[#00BFEF]" />
                 <span>Discipline</span>
@@ -162,7 +162,7 @@ export default function Hero({ onOpenContact }) {
               <div className="text-xs font-semibold text-[#0B1724]">Forensic Soundness</div>
             </div>
 
-            <div className="p-3.5 rounded-xl bg-white/[0.72] border border-[#DCE5EA] shadow-xs backdrop-blur-xs">
+            <div className="p-3.5 rounded-xl bg-[#F1F5F9] border border-[#D8E2EC] shadow-xs">
               <div className="flex items-center gap-2 text-[11px] font-display uppercase tracking-wider text-[#536575] mb-1">
                 <Cpu className="w-3.5 h-3.5 text-[#00BFEF]" />
                 <span>eDiscovery</span>
@@ -170,7 +170,7 @@ export default function Hero({ onOpenContact }) {
               <div className="text-xs font-semibold text-[#0B1724]">Relativity · 4iG · Canopy</div>
             </div>
 
-            <div className="p-3.5 rounded-xl bg-white/[0.72] border border-[#DCE5EA] shadow-xs backdrop-blur-xs">
+            <div className="p-3.5 rounded-xl bg-[#F1F5F9] border border-[#D8E2EC] shadow-xs">
               <div className="flex items-center gap-2 text-[11px] font-display uppercase tracking-wider text-[#536575] mb-1">
                 <Terminal className="w-3.5 h-3.5 text-[#00BFEF]" />
                 <span>Incident Response</span>
@@ -178,7 +178,7 @@ export default function Hero({ onOpenContact }) {
               <div className="text-xs font-semibold text-[#0B1724]">Rapid Forensic Triage</div>
             </div>
 
-            <div className="p-3.5 rounded-xl bg-white/[0.72] border border-[#DCE5EA] shadow-xs backdrop-blur-xs">
+            <div className="p-3.5 rounded-xl bg-[#F1F5F9] border border-[#D8E2EC] shadow-xs">
               <div className="flex items-center gap-2 text-[11px] font-display uppercase tracking-wider text-[#536575] mb-1">
                 <CheckCircle2 className="w-3.5 h-3.5 text-[#00BFEF]" />
                 <span>Operational Lines</span>

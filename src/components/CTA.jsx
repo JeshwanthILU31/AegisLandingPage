@@ -37,7 +37,7 @@ export default function CTA({ onOpenContact }) {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="font-display font-black text-4xl sm:text-6xl md:text-7xl lg:text-[5.5rem] tracking-tight leading-[1.05] text-[#F4F7FA] mb-10"
+            className="font-display font-bold text-4xl sm:text-6xl md:text-7xl lg:text-[5.5rem] tracking-tight leading-[1.05] text-[#F4F7FA] mb-10"
           >
             WHEN THE WORK IS COMPLEX,<br />
             <span className="text-[#00BFEF]">CLARITY MATTERS.</span>

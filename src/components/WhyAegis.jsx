@@ -70,7 +70,7 @@ export default function WhyAegis() {
                 <div className="font-mono text-xs text-[#00BFEF] tracking-[0.2em] mb-4 font-semibold">
                   PRINCIPLE // {item.num}
                 </div>
-                <h3 className="font-display font-black text-5xl sm:text-7xl lg:text-8xl tracking-tight text-[#F4F7FA] leading-none hover:text-[#00BFEF] transition-colors duration-300">
+                <h3 className="font-display font-bold text-5xl sm:text-7xl lg:text-8xl tracking-tight text-[#F4F7FA] leading-none hover:text-[#00BFEF] transition-colors duration-300">
                   {item.title}
                 </h3>
               </div>

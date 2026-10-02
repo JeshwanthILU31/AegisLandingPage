@@ -34,8 +34,8 @@ export default function Navbar({ onOpenContact }) {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled
-          ? 'bg-white/90 backdrop-blur-md border-b border-[#0B1724]/[0.08] py-3.5 shadow-sm shadow-[#0B1724]/5'
-          : 'bg-white/60 backdrop-blur-xs py-4 border-b border-[#0B1724]/[0.05]'
+          ? 'bg-[#071525] border-b border-[#12263A] py-3.5 shadow-sm shadow-[#071525]/50'
+          : 'bg-[#071525] py-4 border-b border-[#12263A]'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -46,28 +46,28 @@ export default function Navbar({ onOpenContact }) {
             className="flex items-center gap-3 group focus:outline-none focus-visible:ring-2 focus-visible:ring-[#00BFEF]"
             aria-label="Aegis Services Home"
           >
-            <div className="relative w-8 h-8 rounded-lg bg-[#EEF3F6] border border-[#DCE5EA] flex items-center justify-center group-hover:border-[#00BFEF] transition-colors duration-200">
+            <div className="relative w-8 h-8 rounded-lg bg-[#071525] border border-[#12263A] flex items-center justify-center group-hover:border-[#00BFEF] transition-colors duration-200">
               <Shield className="w-4 h-4 text-[#00BFEF]" strokeWidth={2} />
               <div className="absolute inset-0 rounded-lg bg-[#00BFEF]/5 opacity-0 group-hover:opacity-100 transition-opacity" />
             </div>
             <div className="flex flex-col">
-              <span className="font-display font-bold tracking-[0.18em] text-sm text-[#0B1724] group-hover:text-[#00BFEF] transition-colors">
+              <span className="font-display font-bold tracking-[0.18em] text-sm text-[#F8FAFC] group-hover:text-[#00BFEF] transition-colors">
                 AEGIS SERVICES
               </span>
-              <span className="text-[10px] uppercase tracking-[0.14em] text-[#536575] -mt-0.5">
+              <span className="text-[10px] uppercase tracking-[0.14em] text-[#94A3B8] -mt-0.5">
                 Legal · Data · Response
               </span>
             </div>
           </a>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-1 bg-white/80 border border-[#0B1724]/[0.08] rounded-full px-4 py-1.5 shadow-2xs backdrop-blur-xs" aria-label="Main Navigation">
+          <nav className="hidden md:flex items-center gap-1 bg-[#071525] border border-[#12263A] rounded-full px-4 py-1.5 shadow-2xs" aria-label="Main Navigation">
             {navLinks.map((link) => (
               <a
                 key={link.name}
                 href={link.href}
                 onClick={(e) => handleNavClick(e, link.href)}
-                className="text-xs uppercase tracking-wider font-medium text-[#536575] hover:text-[#0B1724] px-3.5 py-1.5 rounded-full transition-all hover:bg-[#0B1724]/[0.03] focus:outline-none focus-visible:ring-1 focus-visible:ring-[#00BFEF]"
+                className="text-xs uppercase tracking-wider font-medium text-[#E2E8F0] hover:text-[#FFFFFF] px-3.5 py-1.5 rounded-full transition-all hover:bg-[#12263A]/60 focus:outline-none focus-visible:ring-1 focus-visible:ring-[#00BFEF]"
               >
                 {link.name}
               </a>
@@ -78,7 +78,7 @@ export default function Navbar({ onOpenContact }) {
           <div className="hidden md:flex items-center gap-3">
             <button
               onClick={onOpenContact}
-              className="relative group overflow-hidden rounded px-4 py-2 text-xs font-display font-semibold uppercase tracking-wider text-[#06131D] bg-[#00BFEF] hover:bg-[#25ccf7] transition-colors duration-200 shadow-sm shadow-[#00BFEF]/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#00BFEF] focus-visible:ring-offset-2 focus-visible:ring-offset-[#F6F8FA]"
+              className="relative group overflow-hidden rounded px-4 py-2 text-xs font-display font-semibold uppercase tracking-wider text-[#06131D] bg-[#00BFEF] hover:bg-[#25ccf7] transition-colors duration-200 shadow-sm shadow-[#00BFEF]/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#00BFEF] focus-visible:ring-offset-2 focus-visible:ring-offset-[#071525]"
             >
               <span className="relative z-10 flex items-center gap-1.5">
                 Contact
@@ -91,7 +91,7 @@ export default function Navbar({ onOpenContact }) {
           <div className="flex md:hidden">
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded bg-white border border-[#DCE5EA] text-[#0B1724] hover:text-[#00BFEF] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#00BFEF]"
+              className="p-2 rounded bg-[#071525] border border-[#12263A] text-[#F8FAFC] hover:text-[#00BFEF] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#00BFEF]"
               aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
               aria-expanded={mobileMenuOpen}
             >
@@ -109,15 +109,15 @@ export default function Navbar({ onOpenContact }) {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.25, ease: 'easeInOut' }}
-            className="md:hidden border-b border-[#0B1724]/[0.08] bg-white/95 backdrop-blur-xl px-4 pt-3 pb-6 shadow-lg"
+            className="md:hidden border-b border-[#12263A] bg-[#071525] px-4 pt-3 pb-6 shadow-lg"
           >
-            <div className="flex flex-col space-y-1 divide-y divide-[#0B1724]/[0.05]">
+            <div className="flex flex-col space-y-1 divide-y divide-[#12263A]">
               {navLinks.map((link) => (
                 <a
                   key={link.name}
                   href={link.href}
                   onClick={(e) => handleNavClick(e, link.href)}
-                  className="flex items-center justify-between py-3 text-sm uppercase tracking-wider text-[#536575] hover:text-[#0B1724] transition-colors"
+                  className="flex items-center justify-between py-3 text-sm uppercase tracking-wider text-[#E2E8F0] hover:text-[#FFFFFF] transition-colors"
                 >
                   <span>{link.name}</span>
                   <ChevronRight className="w-4 h-4 text-[#00BFEF]" />
