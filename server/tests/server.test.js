@@ -73,38 +73,38 @@ test('Job Model Schema & JSON transformation', () => {
 });
 
 test('CORS: Preflight OPTIONS request and Header validation', async () => {
-  // 1. Preflight OPTIONS request
+  // 1. Preflight OPTIONS request from canonical production origin
   const optionsRes = await makeMockRequest({
     url: '/api/jobs',
     method: 'OPTIONS',
     headers: {
-      origin: 'https://aegis-services.vercel.app',
+      origin: 'https://aegisservice.in',
       'access-control-request-method': 'POST',
       'access-control-request-headers': 'authorization,content-type',
     },
     envOverrides: {
-      FRONTEND_URL: 'https://aegis-services.vercel.app',
+      FRONTEND_URL: 'https://aegisservice.in',
     },
   });
 
   assert.strictEqual(optionsRes.statusCode, 204);
-  assert.strictEqual(optionsRes.headers['access-control-allow-origin'], 'https://aegis-services.vercel.app');
+  assert.strictEqual(optionsRes.headers['access-control-allow-origin'], 'https://aegisservice.in');
   assert.ok(optionsRes.headers['access-control-allow-methods'].includes('POST'));
   assert.ok(optionsRes.headers['access-control-allow-headers'].includes('Authorization'));
 
-  // 2. Regular GET with allowed origin
+  // 2. Regular GET with canonical allowed origin
   const getWithOrigin = await makeMockRequest({
     url: '/api/jobs',
     method: 'GET',
     headers: {
-      origin: 'https://aegis-services.vercel.app',
+      origin: 'https://aegisservice.in',
     },
     envOverrides: {
-      FRONTEND_URL: 'https://aegis-services.vercel.app',
+      FRONTEND_URL: 'https://aegisservice.in',
     },
   });
   assert.strictEqual(getWithOrigin.statusCode, 200);
-  assert.strictEqual(getWithOrigin.headers['access-control-allow-origin'], 'https://aegis-services.vercel.app');
+  assert.strictEqual(getWithOrigin.headers['access-control-allow-origin'], 'https://aegisservice.in');
 
   // 3. Localhost dev origin
   const getLocalhost = await makeMockRequest({
@@ -114,7 +114,7 @@ test('CORS: Preflight OPTIONS request and Header validation', async () => {
       origin: 'http://localhost:5173',
     },
     envOverrides: {
-      FRONTEND_URL: 'https://aegis-services.vercel.app',
+      FRONTEND_URL: 'https://aegisservice.in',
     },
   });
   assert.strictEqual(getLocalhost.statusCode, 200);

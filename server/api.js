@@ -17,6 +17,10 @@ const LOCAL_DEV_ORIGINS = [
   'http://127.0.0.1:4173',
 ];
 
+const PRODUCTION_ORIGINS = [
+  'https://aegisservice.in',
+];
+
 /**
  * Check if the incoming request origin is allowed based on FRONTEND_URL & local dev origins
  */
@@ -37,12 +41,17 @@ function resolveAllowedOrigin(origin, frontendUrlEnv) {
     }
   }
 
-  // 2. Allow localhost development origins
+  // 2. Check canonical production origins (apex domain only)
+  if (PRODUCTION_ORIGINS.includes(cleanOrigin)) {
+    return cleanOrigin;
+  }
+
+  // 3. Allow localhost development origins
   if (LOCAL_DEV_ORIGINS.includes(cleanOrigin) || /^http:\/\/localhost:\d+$/.test(cleanOrigin) || /^http:\/\/127\.0\.0\.1:\d+$/.test(cleanOrigin)) {
     return cleanOrigin;
   }
 
-  // 3. If FRONTEND_URL is not explicitly set, fallback to clean origin if in development
+  // 4. If FRONTEND_URL is not explicitly set, fallback to clean origin if in development
   if (!frontendUrlEnv && process.env.NODE_ENV !== 'production') {
     return cleanOrigin;
   }
