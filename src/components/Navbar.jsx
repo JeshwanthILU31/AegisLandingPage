@@ -78,8 +78,8 @@ export default function Navbar({ onOpenContact, currentPath = '/', onNavigate })
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled
-          ? 'bg-[#FFFFFF] border-b border-[#E2E8F0] py-3.5 shadow-sm'
-          : 'bg-[#FFFFFF] py-4 border-b border-[#E2E8F0]'
+          ? 'bg-[#FFFFFF] border-b border-[#E2E8F0] py-2 shadow-sm'
+          : 'bg-[#FFFFFF] py-2.5 sm:py-3 border-b border-[#E2E8F0]'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -88,13 +88,13 @@ export default function Navbar({ onOpenContact, currentPath = '/', onNavigate })
           <a
             href="/"
             onClick={handleLogoClick}
-            className="flex items-center group focus:outline-none focus-visible:ring-2 focus-visible:ring-[#00BFEF]"
+            className="flex items-center group focus:outline-none focus-visible:ring-2 focus-visible:ring-[#00BFEF] rounded transition-opacity"
             aria-label="Aegis Data Services LLP Home"
           >
             <img
               src="/assets/aegis-data-services-logo.png"
               alt="AEGIS Data Services LLP"
-              className="h-8 w-auto object-contain"
+              className="h-10 sm:h-11 md:h-12 w-auto max-h-[50px] object-contain group-hover:opacity-90 transition-opacity"
             />
           </a>
 
