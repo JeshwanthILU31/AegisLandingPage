@@ -5,7 +5,7 @@ import { Job } from '../models/Job.js';
 import { handleApiRequest } from '../api.js';
 
 // Helper to simulate HTTP requests against handleApiRequest
-function makeMockRequest({ url, method = 'GET', headers = {}, body = null }) {
+function makeMockRequest({ url, method = 'GET', headers = {}, body = null, envOverrides = {} }) {
   return new Promise((resolve) => {
     const req = new http.IncomingMessage();
     req.url = url;
@@ -46,6 +46,7 @@ function makeMockRequest({ url, method = 'GET', headers = {}, body = null }) {
     handleApiRequest(req, res, {
       ADMIN_USERNAME: 'admin',
       ADMIN_PASSWORD: 'testpassword123',
+      ...envOverrides,
     });
   });
 }
@@ -69,6 +70,55 @@ test('Job Model Schema & JSON transformation', () => {
   assert.strictEqual(json.title, 'Senior Incident Response Analyst');
   assert.strictEqual(json.department, 'Incident Response');
   assert.strictEqual(json.isActive, true);
+});
+
+test('CORS: Preflight OPTIONS request and Header validation', async () => {
+  // 1. Preflight OPTIONS request
+  const optionsRes = await makeMockRequest({
+    url: '/api/jobs',
+    method: 'OPTIONS',
+    headers: {
+      origin: 'https://aegis-services.vercel.app',
+      'access-control-request-method': 'POST',
+      'access-control-request-headers': 'authorization,content-type',
+    },
+    envOverrides: {
+      FRONTEND_URL: 'https://aegis-services.vercel.app',
+    },
+  });
+
+  assert.strictEqual(optionsRes.statusCode, 204);
+  assert.strictEqual(optionsRes.headers['access-control-allow-origin'], 'https://aegis-services.vercel.app');
+  assert.ok(optionsRes.headers['access-control-allow-methods'].includes('POST'));
+  assert.ok(optionsRes.headers['access-control-allow-headers'].includes('Authorization'));
+
+  // 2. Regular GET with allowed origin
+  const getWithOrigin = await makeMockRequest({
+    url: '/api/jobs',
+    method: 'GET',
+    headers: {
+      origin: 'https://aegis-services.vercel.app',
+    },
+    envOverrides: {
+      FRONTEND_URL: 'https://aegis-services.vercel.app',
+    },
+  });
+  assert.strictEqual(getWithOrigin.statusCode, 200);
+  assert.strictEqual(getWithOrigin.headers['access-control-allow-origin'], 'https://aegis-services.vercel.app');
+
+  // 3. Localhost dev origin
+  const getLocalhost = await makeMockRequest({
+    url: '/api/jobs',
+    method: 'GET',
+    headers: {
+      origin: 'http://localhost:5173',
+    },
+    envOverrides: {
+      FRONTEND_URL: 'https://aegis-services.vercel.app',
+    },
+  });
+  assert.strictEqual(getLocalhost.statusCode, 200);
+  assert.strictEqual(getLocalhost.headers['access-control-allow-origin'], 'http://localhost:5173');
 });
 
 test('Auth Flow: Login, Verify, and Logout', async () => {
@@ -206,4 +256,3 @@ test('Authenticated CRUD operations succeed', async () => {
   assert.strictEqual(deleteRes.statusCode, 200);
   assert.strictEqual(deleteRes.body.success, true);
 });
-

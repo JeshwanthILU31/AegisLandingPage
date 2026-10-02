@@ -9,7 +9,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const rootDir = path.resolve(__dirname, '../');
 
-// Load environment variables from .env if present
+// Load environment variables from .env if present (for local execution)
 function loadEnvFile() {
   const envPath = path.resolve(rootDir, '.env');
   if (fs.existsSync(envPath)) {
@@ -35,24 +35,6 @@ function loadEnvFile() {
 loadEnvFile();
 
 const PORT = parseInt(process.env.PORT || '3000', 10);
-const distDir = path.resolve(rootDir, 'dist');
-
-const MIME_TYPES = {
-  '.html': 'text/html; charset=utf-8',
-  '.js': 'text/javascript; charset=utf-8',
-  '.mjs': 'text/javascript; charset=utf-8',
-  '.css': 'text/css; charset=utf-8',
-  '.json': 'application/json; charset=utf-8',
-  '.png': 'image/png',
-  '.jpg': 'image/jpeg',
-  '.jpeg': 'image/jpeg',
-  '.webp': 'image/webp',
-  '.svg': 'image/svg+xml',
-  '.ico': 'image/x-icon',
-  '.woff2': 'font/woff2',
-  '.woff': 'font/woff',
-  '.ttf': 'font/ttf',
-};
 
 async function startServer() {
   // Connect to MongoDB if URI is provided
@@ -67,48 +49,41 @@ async function startServer() {
   }
 
   const server = http.createServer(async (req, res) => {
-    // 1. Check if this is an API route
+    // 1. Root / health endpoint - JSON status
+    if (req.url === '/' && req.method === 'GET') {
+      res.statusCode = 200;
+      res.setHeader('Content-Type', 'application/json');
+      res.end(JSON.stringify({
+        name: 'Aegis Careers API Server',
+        status: 'online',
+        version: '1.0.0',
+        endpoints: [
+          '/api/jobs',
+          '/api/auth/login',
+          '/api/auth/verify',
+          '/api/auth/logout'
+        ]
+      }));
+      return;
+    }
+
+    // 2. Delegate all /api/* requests to API handler
     if (req.url && req.url.startsWith('/api/')) {
       const handled = await handleApiRequest(req, res, process.env);
       if (handled !== null) return;
     }
 
-    // 2. Serve static production assets from dist/
-    if (fs.existsSync(distDir)) {
-      let reqPath = (req.url || '/').split('?')[0];
-      let filePath = path.join(distDir, reqPath);
-
-      // Prevent directory traversal
-      if (!filePath.startsWith(distDir)) {
-        res.statusCode = 403;
-        res.end('Forbidden');
-        return;
-      }
-
-      // Check if exact file exists
-      if (fs.existsSync(filePath) && fs.statSync(filePath).isFile()) {
-        const ext = path.extname(filePath).toLowerCase();
-        const contentType = MIME_TYPES[ext] || 'application/octet-stream';
-        res.writeHead(200, { 'Content-Type': contentType });
-        fs.createReadStream(filePath).pipe(res);
-        return;
-      }
-
-      // SPA Fallback: serve dist/index.html
-      const indexPath = path.join(distDir, 'index.html');
-      if (fs.existsSync(indexPath)) {
-        res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
-        fs.createReadStream(indexPath).pipe(res);
-        return;
-      }
-    }
-
-    res.writeHead(404, { 'Content-Type': 'text/plain' });
-    res.end('Not Found');
+    // 3. API-Only Server: Any unhandled or non-API route returns JSON 404
+    res.statusCode = 404;
+    res.setHeader('Content-Type', 'application/json');
+    res.end(JSON.stringify({
+      error: 'Not Found',
+      message: `Endpoint ${req.url} does not exist on this API server.`
+    }));
   });
 
   server.listen(PORT, () => {
-    console.log(`[Aegis Production Server] Listening on http://localhost:${PORT}`);
+    console.log(`[Aegis API Server] Listening on http://localhost:${PORT}`);
   });
 }
 

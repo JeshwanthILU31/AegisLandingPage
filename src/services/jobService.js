@@ -3,6 +3,11 @@
 const TOKEN_KEY = 'aegis_admin_token';
 const JOBS_STORAGE_KEY = 'aegis_jobs_cache';
 
+// Base URL for backend API (configured via VITE_API_URL for production Vercel -> Render communication)
+const API_BASE_URL = (import.meta.env.VITE_API_URL || '').replace(/\/+$/, '');
+
+const getApiUrl = (endpoint) => `${API_BASE_URL}${endpoint}`;
+
 export const jobService = {
   getToken() {
     return sessionStorage.getItem(TOKEN_KEY) || localStorage.getItem(TOKEN_KEY) || '';
@@ -22,7 +27,7 @@ export const jobService = {
 
   async login(username, password, remember = false) {
     try {
-      const res = await fetch('/api/auth/login', {
+      const res = await fetch(getApiUrl('/api/auth/login'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password })
@@ -42,7 +47,7 @@ export const jobService = {
     const token = this.getToken();
     if (!token) return false;
     try {
-      const res = await fetch('/api/auth/verify', {
+      const res = await fetch(getApiUrl('/api/auth/verify'), {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       if (res.ok) {
@@ -60,7 +65,7 @@ export const jobService = {
     const token = this.getToken();
     if (token) {
       try {
-        await fetch('/api/auth/logout', {
+        await fetch(getApiUrl('/api/auth/logout'), {
           method: 'POST',
           headers: { 'Authorization': `Bearer ${token}` }
         });
@@ -78,7 +83,7 @@ export const jobService = {
       if (token) {
         headers['Authorization'] = `Bearer ${token}`;
       }
-      const res = await fetch('/api/jobs', { headers });
+      const res = await fetch(getApiUrl('/api/jobs'), { headers });
       if (res.ok) {
         const data = await res.json();
         if (Array.isArray(data)) {
@@ -96,7 +101,7 @@ export const jobService = {
   async createJob(jobData) {
     const token = this.getToken();
     try {
-      const res = await fetch('/api/jobs', {
+      const res = await fetch(getApiUrl('/api/jobs'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -118,7 +123,7 @@ export const jobService = {
   async updateJob(id, jobData) {
     const token = this.getToken();
     try {
-      const res = await fetch(`/api/jobs/${id}`, {
+      const res = await fetch(getApiUrl(`/api/jobs/${id}`), {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -140,7 +145,7 @@ export const jobService = {
   async deleteJob(id) {
     const token = this.getToken();
     try {
-      const res = await fetch(`/api/jobs/${id}`, {
+      const res = await fetch(getApiUrl(`/api/jobs/${id}`), {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`

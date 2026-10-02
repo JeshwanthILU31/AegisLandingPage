@@ -8,6 +8,72 @@ import path from 'path';
 // Active in-memory session tokens store
 const activeSessions = new Set();
 
+const LOCAL_DEV_ORIGINS = [
+  'http://localhost:5173',
+  'http://localhost:3000',
+  'http://localhost:4173',
+  'http://127.0.0.1:5173',
+  'http://127.0.0.1:3000',
+  'http://127.0.0.1:4173',
+];
+
+/**
+ * Check if the incoming request origin is allowed based on FRONTEND_URL & local dev origins
+ */
+function resolveAllowedOrigin(origin, frontendUrlEnv) {
+  if (!origin) return null;
+
+  const cleanOrigin = origin.trim().replace(/\/+$/, '');
+
+  // 1. Check configured FRONTEND_URL(s)
+  if (frontendUrlEnv) {
+    const configuredList = frontendUrlEnv
+      .split(',')
+      .map((u) => u.trim().replace(/\/+$/, ''))
+      .filter(Boolean);
+
+    if (configuredList.includes(cleanOrigin)) {
+      return cleanOrigin;
+    }
+  }
+
+  // 2. Allow localhost development origins
+  if (LOCAL_DEV_ORIGINS.includes(cleanOrigin) || /^http:\/\/localhost:\d+$/.test(cleanOrigin) || /^http:\/\/127\.0\.0\.1:\d+$/.test(cleanOrigin)) {
+    return cleanOrigin;
+  }
+
+  // 3. If FRONTEND_URL is not explicitly set, fallback to clean origin if in development
+  if (!frontendUrlEnv && process.env.NODE_ENV !== 'production') {
+    return cleanOrigin;
+  }
+
+  return null;
+}
+
+/**
+ * Attach CORS headers to the response
+ */
+function applyCorsHeaders(req, res, env = {}) {
+  const origin = req.headers['origin'];
+  const frontendUrl = env.FRONTEND_URL || process.env.FRONTEND_URL;
+  const allowedOrigin = resolveAllowedOrigin(origin, frontendUrl);
+
+  if (allowedOrigin) {
+    res.setHeader('Access-Control-Allow-Origin', allowedOrigin);
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+  } else if (!frontendUrl) {
+    // Development fallback
+    if (origin) {
+      res.setHeader('Access-Control-Allow-Origin', origin);
+    }
+  }
+
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
+  res.setHeader('Access-Control-Max-Age', '86400');
+  res.setHeader('Vary', 'Origin');
+}
+
 function sendJson(res, statusCode, data) {
   res.statusCode = statusCode;
   res.setHeader('Content-Type', 'application/json');
@@ -42,8 +108,19 @@ function checkAuthToken(req) {
  * Works identically in Vite dev middleware and standalone Node production server.
  */
 export async function handleApiRequest(req, res, env = {}) {
+  // Apply CORS headers on all responses
+  applyCorsHeaders(req, res, env);
+
   const url = req.url || '';
   const method = req.method || 'GET';
+
+  // Handle preflight OPTIONS request
+  if (method === 'OPTIONS') {
+    res.statusCode = 204;
+    res.setHeader('Content-Length', '0');
+    res.end();
+    return true;
+  }
 
   // Read admin credentials from server environment
   const adminUsername = env.ADMIN_USERNAME || process.env.ADMIN_USERNAME || 'admin';
