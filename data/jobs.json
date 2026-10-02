@@ -1,0 +1,57 @@
+[
+  {
+    "id": "JOB-01",
+    "title": "Legal Operations Associate",
+    "department": "Legal Operations",
+    "location": "Hybrid / Bangalore",
+    "employmentType": "Full-Time",
+    "description": "Support high-volume legal department workflows, vendor coordination, process automation, and operational performance reporting across corporate clients.",
+    "requirements": "Bachelor's degree in legal studies, business, or related field; 1-3 years experience in legal operations, project coordination, or corporate legal support; familiarity with legal tech workflows and process mapping.",
+    "postedDate": "2026-09-15",
+    "isActive": false
+  },
+  {
+    "id": "JOB-02",
+    "title": "Data Operations Analyst",
+    "department": "Data & Analytics",
+    "location": "Hybrid / Bangalore",
+    "employmentType": "Full-Time",
+    "description": "Analyze, structure, and process complex multi-terabyte data collections for corporate legal departments, compliance audits, and litigation readiness.",
+    "requirements": "Strong background in structured data analysis, SQL/Python data manipulation, experience handling forensic images or high-density document collections, and meticulous attention to data integrity.",
+    "postedDate": "2026-09-18",
+    "isActive": true
+  },
+  {
+    "id": "JOB-03",
+    "title": "eDiscovery Analyst",
+    "department": "eDiscovery & Litigation",
+    "location": "Hybrid / Bangalore",
+    "employmentType": "Full-Time",
+    "description": "Execute forensically defensible data ingestion, processing, indexing, Continuous Active Learning (CAL) analytics, and court-ready production generation on industry-standard platforms.",
+    "requirements": "1-3+ years of hands-on eDiscovery platform experience (Relativity, 4iG, Canopy, or similar); understanding of EDRM lifecycle, deduplication, and production specifications.",
+    "postedDate": "2026-09-22",
+    "isActive": true
+  },
+  {
+    "id": "JOB-04",
+    "title": "Software Engineer",
+    "department": "Technology & Tools",
+    "location": "Hybrid / Remote",
+    "employmentType": "Full-Time",
+    "description": "Build and maintain internal tools, workflow automation pipelines, and data integration utilities supporting enterprise legal operations and incident response triage.",
+    "requirements": "Proficiency with modern web stacks (JavaScript/TypeScript, Node.js, Python, or Go); experience with REST APIs, secure data handling, and automated processing pipelines.",
+    "postedDate": "2026-09-25",
+    "isActive": true
+  },
+  {
+    "id": "JOB-05",
+    "title": "Business Operations Associate",
+    "department": "Corporate Operations",
+    "location": "Hybrid / Bangalore",
+    "employmentType": "Full-Time",
+    "description": "Coordinate cross-functional project deliverables, client communications, resource tracking, and operational quality assurance across multi-jurisdictional matters.",
+    "requirements": "Strong organizational and communication skills; experience in project tracking, client operations, or professional services coordination; detail-oriented mindset.",
+    "postedDate": "2026-09-28",
+    "isActive": true
+  }
+]

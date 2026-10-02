@@ -7,31 +7,41 @@ import Technology from './components/Technology';
 import WhyAegis from './components/WhyAegis';
 import CTA from './components/CTA';
 import Careers from './components/Careers';
+import AdminLogin from './components/AdminLogin';
+import AdminDashboard from './components/AdminDashboard';
 import Footer from './components/Footer';
 import ContactModal from './components/ContactModal';
+import { jobService } from './services/jobService';
 
 export default function App() {
   const [currentPath, setCurrentPath] = useState(
-    typeof window !== 'undefined' ? (window.location.pathname === '/careers' ? '/careers' : '/') : '/'
+    typeof window !== 'undefined' ? window.location.pathname : '/'
   );
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [authChecking, setAuthChecking] = useState(true);
   const [contactModalOpen, setContactModalOpen] = useState(false);
 
   useEffect(() => {
     const handlePopState = () => {
-      const path = window.location.pathname === '/careers' ? '/careers' : '/';
-      setCurrentPath(path);
+      setCurrentPath(window.location.pathname);
     };
 
+    const verify = async () => {
+      const valid = await jobService.verifyAuth();
+      setIsAuthenticated(valid);
+      setAuthChecking(false);
+    };
+
+    verify();
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
   }, []);
 
   const handleNavigate = (path) => {
-    const normalized = path === '/careers' ? '/careers' : '/';
-    if (window.location.pathname !== normalized) {
-      window.history.pushState({}, '', normalized);
+    if (window.location.pathname !== path) {
+      window.history.pushState({}, '', path);
     }
-    setCurrentPath(normalized);
+    setCurrentPath(path);
     window.scrollTo({ top: 0, behavior: 'instant' });
   };
 
@@ -42,6 +52,55 @@ export default function App() {
   const handleCloseContact = () => {
     setContactModalOpen(false);
   };
+
+  // Route: /admin/login
+  if (currentPath === '/admin/login') {
+    if (isAuthenticated) {
+      handleNavigate('/admin');
+      return null;
+    }
+    return (
+      <AdminLogin
+        onLoginSuccess={() => {
+          setIsAuthenticated(true);
+          handleNavigate('/admin');
+        }}
+        onNavigateHome={() => handleNavigate('/')}
+      />
+    );
+  }
+
+  // Route: /admin (Protected)
+  if (currentPath === '/admin') {
+    if (authChecking) {
+      return (
+        <div className="min-h-screen bg-[#F8FAFC] flex items-center justify-center font-mono text-xs text-[#64748B]">
+          Verifying security authorization...
+        </div>
+      );
+    }
+    if (!isAuthenticated) {
+      return (
+        <AdminLogin
+          onLoginSuccess={() => {
+            setIsAuthenticated(true);
+            handleNavigate('/admin');
+          }}
+          onNavigateHome={() => handleNavigate('/')}
+        />
+      );
+    }
+    return (
+      <AdminDashboard
+        onLogout={async () => {
+          await jobService.logout();
+          setIsAuthenticated(false);
+          handleNavigate('/admin/login');
+        }}
+        onNavigateCareers={() => handleNavigate('/careers')}
+      />
+    );
+  }
 
   return (
     <div className="min-h-screen bg-[#081018] text-[#F4F7FA] font-sans antialiased selection:bg-[#00BFEF]/20 selection:text-[#00BFEF]">

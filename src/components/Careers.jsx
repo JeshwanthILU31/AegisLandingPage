@@ -1,8 +1,28 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowUpRight, ArrowDown, Briefcase, Sparkles, Users, TrendingUp, Target, Building2, MapPin, Clock } from 'lucide-react';
+import { ArrowUpRight, ArrowDown, Briefcase, Sparkles, Users, TrendingUp, Target, Building2, MapPin, Clock, Mail, FileText } from 'lucide-react';
+import { jobService } from '../services/jobService';
 
 export default function Careers({ onOpenContact }) {
+  const [jobs, setJobs] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadJobs = async () => {
+      try {
+        const data = await jobService.getJobs();
+        setJobs(data || []);
+      } catch {
+        setJobs([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadJobs();
+  }, []);
+
+  const activeJobs = jobs.filter(j => j.isActive);
+
   const scrollToPositions = (e) => {
     e.preventDefault();
     const target = document.querySelector('#open-positions');
@@ -31,50 +51,6 @@ export default function Careers({ onOpenContact }) {
       icon: Sparkles,
       title: "Make an Impact",
       description: "Your work directly supports clients and strengthens how critical operations are delivered."
-    }
-  ];
-
-  // Configurable job openings data structure
-  const jobOpenings = [
-    {
-      id: "JOB-01",
-      title: "Legal Operations Associate",
-      department: "Legal Operations",
-      location: "Hybrid / On-Site",
-      type: "Full-Time",
-      description: "Support high-volume legal department workflows, vendor coordination, process automation, and operational performance reporting."
-    },
-    {
-      id: "JOB-02",
-      title: "Data Operations Analyst",
-      department: "Data & Analytics",
-      location: "Hybrid / On-Site",
-      type: "Full-Time",
-      description: "Analyze, structure, and process complex multi-terabyte data collections for corporate legal departments and litigation readiness."
-    },
-    {
-      id: "JOB-03",
-      title: "eDiscovery Analyst",
-      department: "eDiscovery & Litigation",
-      location: "Hybrid / On-Site",
-      type: "Full-Time",
-      description: "Execute forensically defensible data ingestion, processing, indexing, analytics, and court-ready production generation on industry-standard platforms."
-    },
-    {
-      id: "JOB-04",
-      title: "Software Engineer",
-      department: "Technology & Tools",
-      location: "Hybrid / Remote",
-      type: "Full-Time",
-      description: "Build and maintain internal tools, workflow automation pipelines, and data integration utilities supporting enterprise legal operations."
-    },
-    {
-      id: "JOB-05",
-      title: "Business Operations Associate",
-      department: "Corporate Operations",
-      location: "Hybrid / On-Site",
-      type: "Full-Time",
-      description: "Coordinate cross-functional project deliverables, client communications, resource tracking, and operational quality assurance."
     }
   ];
 
@@ -213,55 +189,74 @@ export default function Careers({ onOpenContact }) {
             </div>
             
             <span className="font-mono text-xs uppercase tracking-wider text-[#64748B] font-medium">
-              {jobOpenings.length} Positions Available
+              {activeJobs.length} {activeJobs.length === 1 ? 'Position' : 'Positions'} Available
             </span>
           </div>
 
-          {/* Job Listings */}
-          {jobOpenings && jobOpenings.length > 0 ? (
-            <div className="space-y-4">
-              {jobOpenings.map((job, i) => (
+          {/* Job Listings / Fallback */}
+          {loading ? (
+            <div className="py-16 text-center text-sm font-mono text-[#64748B]">
+              Loading open opportunities...
+            </div>
+          ) : activeJobs.length > 0 ? (
+            <div className="space-y-6">
+              {activeJobs.map((job, i) => (
                 <motion.div
                   key={job.id}
                   initial={{ opacity: 0, y: 16 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.45, delay: i * 0.06 }}
-                  className="bg-[#FFFFFF] border border-[#E2E8F0] hover:border-[#00BFEF]/50 rounded-xl p-6 sm:p-7 shadow-2xs transition-all duration-200 flex flex-col md:flex-row md:items-center justify-between gap-6"
+                  className="bg-[#FFFFFF] border border-[#E2E8F0] hover:border-[#00BFEF]/50 rounded-xl p-6 sm:p-8 shadow-2xs transition-all duration-200 flex flex-col justify-between gap-6"
                 >
-                  <div className="space-y-2.5 max-w-3xl">
-                    <div className="flex flex-wrap items-center gap-2.5">
-                      <h3 className="font-display font-semibold text-lg sm:text-xl text-[#071525]">
-                        {job.title}
-                      </h3>
-                      <span className="font-mono text-[11px] uppercase tracking-wider text-[#00BFEF] bg-[#F1F5F9] px-2 py-0.5 rounded border border-[#E2E8F0] font-semibold">
-                        {job.id}
-                      </span>
+                  <div className="space-y-4">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                      <div className="flex flex-wrap items-center gap-2.5">
+                        <h3 className="font-display font-semibold text-xl text-[#071525]">
+                          {job.title}
+                        </h3>
+                        <span className="font-mono text-[11px] uppercase tracking-wider text-[#00BFEF] bg-[#F1F5F9] px-2 py-0.5 rounded border border-[#E2E8F0] font-semibold">
+                          {job.id}
+                        </span>
+                      </div>
+
+                      <div className="flex flex-wrap items-center gap-3 text-xs font-mono text-[#64748B]">
+                        <span className="flex items-center gap-1.5 bg-[#F8FAFC] px-2.5 py-1 rounded border border-[#E2E8F0]">
+                          <Building2 className="w-3.5 h-3.5 text-[#00BFEF]" />
+                          {job.department}
+                        </span>
+                        <span className="flex items-center gap-1.5 bg-[#F8FAFC] px-2.5 py-1 rounded border border-[#E2E8F0]">
+                          <MapPin className="w-3.5 h-3.5 text-[#00BFEF]" />
+                          {job.location}
+                        </span>
+                        <span className="flex items-center gap-1.5 bg-[#F8FAFC] px-2.5 py-1 rounded border border-[#E2E8F0]">
+                          <Clock className="w-3.5 h-3.5 text-[#00BFEF]" />
+                          {job.employmentType}
+                        </span>
+                      </div>
                     </div>
 
-                    <div className="flex flex-wrap items-center gap-4 text-xs font-mono text-[#64748B]">
-                      <span className="flex items-center gap-1.5">
-                        <Building2 className="w-3.5 h-3.5 text-[#00BFEF]" />
-                        {job.department}
-                      </span>
-                      <span>·</span>
-                      <span className="flex items-center gap-1.5">
-                        <MapPin className="w-3.5 h-3.5 text-[#00BFEF]" />
-                        {job.location}
-                      </span>
-                      <span>·</span>
-                      <span className="flex items-center gap-1.5">
-                        <Clock className="w-3.5 h-3.5 text-[#00BFEF]" />
-                        {job.type}
-                      </span>
-                    </div>
-
-                    <p className="text-sm text-[#475569] leading-relaxed pt-1">
+                    <p className="text-sm text-[#334155] leading-relaxed">
                       {job.description}
                     </p>
+
+                    {job.requirements && (
+                      <div className="pt-2 border-t border-[#F1F5F9]">
+                        <div className="text-xs font-display uppercase tracking-wider text-[#071525] font-semibold mb-1 flex items-center gap-1.5">
+                          <FileText className="w-3.5 h-3.5 text-[#00BFEF]" />
+                          Requirements
+                        </div>
+                        <p className="text-xs sm:text-sm text-[#64748B] leading-relaxed">
+                          {job.requirements}
+                        </p>
+                      </div>
+                    )}
                   </div>
 
-                  <div className="pt-2 md:pt-0 flex-shrink-0">
+                  <div className="pt-2 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-t border-[#E2E8F0]">
+                    <span className="text-[11px] font-mono text-[#94A3B8]">
+                      Posted: {job.postedDate || 'Recent'}
+                    </span>
                     <button
                       onClick={onOpenContact}
                       className="w-full sm:w-auto px-6 py-2.5 rounded bg-[#071525] hover:bg-[#00BFEF] text-[#FFFFFF] hover:text-[#06131D] font-display text-xs font-semibold uppercase tracking-wider transition-all duration-200 inline-flex items-center justify-center gap-2 shadow-2xs cursor-pointer"
@@ -275,49 +270,52 @@ export default function Careers({ onOpenContact }) {
             </div>
           ) : (
             /* 4. NO CURRENT OPENINGS STATE FALLBACK */
-            <div className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl p-10 text-center max-w-2xl mx-auto">
-              <Briefcase className="w-10 h-10 text-[#64748B] mx-auto mb-4" />
-              <h3 className="font-display font-bold text-xl text-[#071525] mb-2 uppercase">
+            <div className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl p-10 sm:p-14 text-center max-w-2xl mx-auto">
+              <Briefcase className="w-12 h-12 text-[#64748B] mx-auto mb-4" />
+              <h3 className="font-display font-bold text-xl sm:text-2xl text-[#071525] mb-2 uppercase">
                 NO OPEN POSITIONS RIGHT NOW
               </h3>
               <p className="text-sm text-[#475569] leading-relaxed mb-6">
                 Don't see the right opportunity? We're always interested in hearing from talented people.
               </p>
-              <button
-                onClick={onOpenContact}
+              <a
+                href="mailto:Connect@aegisservice.in"
                 className="px-6 py-3 rounded bg-[#00BFEF] text-[#06131D] font-display text-xs font-semibold uppercase tracking-wider hover:bg-[#25ccf7] transition-all inline-flex items-center gap-2 shadow-2xs cursor-pointer"
               >
                 <span>SEND YOUR RESUME</span>
-                <ArrowUpRight className="w-3.5 h-3.5" />
-              </button>
+                <Mail className="w-3.5 h-3.5" />
+              </a>
             </div>
           )}
 
-          {/* Fallback Candidate Banner */}
+          {/* General Talent Inquiries Box */}
           <div className="mt-12 bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl p-6 sm:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
             <div className="space-y-1">
               <h4 className="font-display font-semibold text-base sm:text-lg text-[#071525]">
                 Don't see the right opportunity?
               </h4>
               <p className="text-sm text-[#64748B]">
-                We're always interested in hearing from talented people. Submit your background to our talent network.
+                We're always interested in hearing from talented people. Submit your profile directly to our talent team at{' '}
+                <a href="mailto:Connect@aegisservice.in" className="text-[#00BFEF] hover:underline font-medium">
+                  Connect@aegisservice.in
+                </a>
               </p>
             </div>
 
-            <button
-              onClick={onOpenContact}
+            <a
+              href="mailto:Connect@aegisservice.in"
               className="px-6 py-2.5 rounded bg-[#FFFFFF] border border-[#E2E8F0] text-[#071525] font-display text-xs font-semibold uppercase tracking-wider hover:bg-[#F1F5F9] hover:border-[#CBD5E1] transition-all inline-flex items-center gap-2 shadow-2xs cursor-pointer whitespace-nowrap"
             >
               <span>SEND YOUR RESUME</span>
               <ArrowUpRight className="w-3.5 h-3.5" />
-            </button>
+            </a>
           </div>
 
         </div>
       </section>
 
-      {/* 5. CULTURE / CLOSING CTA */}
-      <section className="relative py-24 sm:py-32 bg-[#FFFFFF] overflow-hidden text-center">
+      {/* 4. OFFICIAL CONTACT INFORMATION & CULTURE CTA SECTION */}
+      <section className="relative py-24 sm:py-32 bg-[#FFFFFF] overflow-hidden text-center border-t border-[#E2E8F0]">
         <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center">
           
           <h2 className="font-display font-bold text-3xl sm:text-5xl tracking-tight leading-[1.15] text-[#071525] mb-4 uppercase">
@@ -330,11 +328,50 @@ export default function Careers({ onOpenContact }) {
 
           <button
             onClick={onOpenContact}
-            className="px-10 py-4 rounded bg-[#00BFEF] text-[#06131D] font-display text-sm font-semibold uppercase tracking-wider hover:bg-[#25ccf7] transition-all duration-200 inline-flex items-center gap-2 shadow-md shadow-[#00BFEF]/20 group cursor-pointer"
+            className="px-10 py-4 rounded bg-[#00BFEF] text-[#06131D] font-display text-sm font-semibold uppercase tracking-wider hover:bg-[#25ccf7] transition-all duration-200 inline-flex items-center gap-2 shadow-md shadow-[#00BFEF]/20 group cursor-pointer mb-16"
           >
             <span>GET IN TOUCH</span>
             <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
           </button>
+
+          {/* OFFICIAL CONTACT INFORMATION CARD */}
+          <div className="w-full bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl p-8 sm:p-10 text-left grid grid-cols-1 md:grid-cols-2 gap-8 shadow-2xs">
+            {/* Email */}
+            <div className="space-y-2">
+              <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-[#00BFEF] font-semibold">
+                <Mail className="w-4 h-4" />
+                <span>Careers Contact Email</span>
+              </div>
+              <p className="text-xs text-[#64748B]">
+                Direct candidate inquiries, resume submissions, and recruiter communications:
+              </p>
+              <div className="pt-2">
+                <a
+                  href="mailto:Connect@aegisservice.in"
+                  className="text-base sm:text-lg font-display font-semibold text-[#071525] hover:text-[#00BFEF] transition-colors inline-flex items-center gap-1.5"
+                >
+                  <span>Connect@aegisservice.in</span>
+                  <ArrowUpRight className="w-4 h-4 text-[#00BFEF]" />
+                </a>
+              </div>
+            </div>
+
+            {/* Office Address */}
+            <div className="space-y-2">
+              <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-[#00BFEF] font-semibold">
+                <MapPin className="w-4 h-4" />
+                <span>Office Location</span>
+              </div>
+              <p className="text-xs text-[#64748B]">
+                Aegis Data Services LLP corporate operational facility:
+              </p>
+              <address className="not-italic text-sm sm:text-base font-normal text-[#071525] leading-relaxed pt-1">
+                #235, 2nd & 3rd Floor,<br />
+                13th Cross Road, 2nd Stage,<br />
+                Indiranagar, Bangalore, Karnataka.
+              </address>
+            </div>
+          </div>
 
         </div>
       </section>
